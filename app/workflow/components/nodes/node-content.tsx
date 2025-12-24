@@ -1,8 +1,59 @@
 import type { NodeProps } from "reactflow";
+import { useRef, RefObject } from "react";
 import type { QfNodeData, NodeInput, NodeOutput } from "../../types";
 import { formatValue } from "../../utils";
 import { renderNodeIcon } from "../node-icons";
 import { Position, Handle } from "reactflow";
+// 不再需要动态导入
+
+interface IntentionOutputPortsProps {
+  intentions: Array<{
+    meta?: { id?: string };
+    name?: string;
+  }>;
+  otherHandleId?: string;
+  isConnectable?: boolean;
+}
+
+function IntentionOutputPorts({ intentions, otherHandleId, isConnectable = true }: IntentionOutputPortsProps) {
+  const FIRST_OFFSET = 191;
+  const GAP = 40;
+  const tops = intentions.map((_, idx) => FIRST_OFFSET + idx * GAP);
+  const otherTop = FIRST_OFFSET + intentions.length * GAP;
+  const otherId = otherHandleId ? `intention-${otherHandleId}` : "intention--1";
+
+  const handleStyles = { background: "#f97316", width: 8, height: 8 };
+
+  return (
+    <>
+      {intentions.map((intention, idx) => (
+        <Handle
+          key={`intention-${intention?.meta?.id || idx}`}
+          id={`intention-${intention?.meta?.id || idx}`}
+          type="source"
+          position={Position.Right}
+          isConnectable={isConnectable}
+          style={{
+            top: tops[idx],
+            ...handleStyles,
+          }}
+        />
+      ))}
+      <Handle
+        id={otherId}
+        type="source"
+        position={Position.Right}
+        isConnectable={isConnectable}
+        style={{
+          top: otherTop,
+          background: "#94a3b8",
+          width: 8,
+          height: 8,
+        }}
+      />
+    </>
+  );
+}
 
 interface NodeContentProps extends NodeProps<QfNodeData> {
   isStart: boolean;
@@ -18,10 +69,13 @@ interface NodeContentProps extends NodeProps<QfNodeData> {
   isWorkflow: boolean;
 }
 
-export function NodeContent({ data, selected, isStart, isApi, isLlm, isEnd, isIntention, isChat, isMessage, isCode, isLoop, isBranch, isWorkflow }: NodeContentProps) {
+export function NodeContent({ data, selected, isStart, isApi, isLlm, isEnd, isIntention, isChat, isMessage, isCode, isLoop, isBranch, isWorkflow, isConnectable }: NodeContentProps) {
   const cardClass = selected
     ? "border-sky-300 shadow-md shadow-sky-50"
     : "border-slate-200";
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const intentionListRef = useRef<HTMLDivElement>(null);
 
   const startInputs = isStart 
     ? (data.raw?.data?.inputs?.length 
@@ -42,8 +96,8 @@ export function NodeContent({ data, selected, isStart, isApi, isLlm, isEnd, isIn
     : [];
 
   return (
-    <div className={`rounded-lg border bg-white px-4 py-3 shadow-sm ${cardClass}`}>
-      {!isStart && <Handle id="input" type="target" position={Position.Left} />}
+    <div ref={cardRef} className={`rounded-lg border bg-white px-4 py-3 shadow-sm ${cardClass}`}>
+      {!isStart && <Handle id="input" type="target" position={Position.Left} isConnectable={isConnectable ?? true} />}
       
       <NodeHeader data={data} isIntention={isIntention} isLoop={isLoop} isBranch={isBranch} isWorkflow={isWorkflow} />
       
@@ -53,7 +107,7 @@ export function NodeContent({ data, selected, isStart, isApi, isLlm, isEnd, isIn
 
       {isStart && <StartNodeContent inputs={startInputs} />}
       {isApi && <ApiNodeContent data={data} />}
-      {isIntention && <IntentionNodeContent data={data} />}
+      {isIntention && <IntentionNodeContent data={data} intentionListRef={intentionListRef} />}
       {isChat && <ChatNodeContent data={data} />}
       {isMessage && <MessageNodeContent data={data} />}
       {isCode && <CodeNodeContent data={data} />}
@@ -63,7 +117,16 @@ export function NodeContent({ data, selected, isStart, isApi, isLlm, isEnd, isIn
       {isLlm && <LlmNodeContent data={data} />}
       {isEnd && <EndNodeContent data={data} />}
       
-      {!isEnd && <Handle id="output" type="source" position={Position.Right} />}
+      {/* 为意图识别节点添加多个输出端口 */}
+      {isIntention ? (
+        <IntentionOutputPorts 
+          intentions={data.raw?.data?.settings?.intentions ?? []} 
+          otherHandleId={data.raw?.data?.settings?.meta?.unmatedIntention?.id ?? "-1"}
+          isConnectable={isConnectable ?? true}
+        />
+      ) : (
+        !isEnd && <Handle id="output" type="source" position={Position.Right} isConnectable={isConnectable ?? true} />
+      )}
     </div>
   );
 }
@@ -201,38 +264,57 @@ function ApiNodeContent({ data }: { data: QfNodeData }) {
   );
 }
 
-function IntentionNodeContent({ data }: { data: QfNodeData }) {
+function IntentionNodeContent({ data, intentionListRef }: { data: QfNodeData; intentionListRef?: RefObject<HTMLDivElement> }) {
+  const intentions = data.raw?.data?.settings?.intentions ?? [];
+  const inputs = data.raw?.data?.inputs;
+  const outputs = data.raw?.data?.outputs;
+  
   return (
     <div className="mt-3 space-y-3">
-      <InputOutputSection 
-        inputs={data.raw?.data?.inputs} 
-        outputs={data.raw?.data?.outputs}
-        showValues 
-      />
+      <InputOutputSection inputs={inputs} showValues />
       <div className="rounded-md bg-slate-50 p-3">
         <div className="text-xs font-semibold text-slate-600">意图</div>
-        <div className="mt-2 space-y-2">
-          {(data.raw?.data?.settings?.intentions ?? []).map((it: any, idx: number) => (
+        <div className="mt-2 space-y-2" ref={intentionListRef}>
+          {intentions.map((it: any, idx: number) => (
             <div
               key={it?.meta?.id ?? idx}
+              data-intention-index={idx}
               className="flex items-center justify-between rounded bg-white px-2 py-2 text-xs text-slate-700"
             >
               <span className="flex items-center gap-2">
                 <span className="text-slate-500">{idx}</span>
                 <span>{it?.name ?? "意图"}</span>
               </span>
-              <span className="text-sky-600 font-semibold">+</span>
+              <div className="flex items-center gap-2">
+                {/* 输出端口指示器 */}
+                <div 
+                  className="w-2 h-2 rounded-full bg-orange-500"
+                  title={`输出端口: ${it?.name ?? '意图'} ${idx}`}
+                />
+                <span className="text-sky-600 font-semibold">+</span>
+              </div>
             </div>
           ))}
-          <div className="flex items-center justify-between rounded bg-white px-2 py-2 text-xs text-slate-500">
+          <div 
+            data-intention-other
+            className="flex items-center justify-between rounded bg-white px-2 py-2 text-xs text-slate-500"
+          >
             <span className="flex items-center gap-2">
               <span className="text-slate-500">-1</span>
               <span>其他意图</span>
             </span>
-            <span className="text-sky-600 font-semibold">+</span>
+            <div className="flex items-center gap-2">
+              {/* 其他意图输出端口指示器 */}
+              <div 
+                className="w-2 h-2 rounded-full bg-slate-400"
+                title="输出端口: 其他意图"
+              />
+              <span className="text-sky-600 font-semibold">+</span>
+            </div>
           </div>
         </div>
       </div>
+      <InputOutputSection outputs={outputs} />
     </div>
   );
 }

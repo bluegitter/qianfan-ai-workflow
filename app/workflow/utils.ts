@@ -91,14 +91,28 @@ export function toReactFlowEdges(edges: unknown[] = []): WorkflowEdge[] {
       id?: string; 
       source_node_id?: string; 
       target_node_id?: string;
+      meta?: {
+        source_handle_id?: string;
+        target_handle_id?: string;
+        source_port_id?: string | number;
+      };
     };
+
+    const meta = edgeData.meta || {};
+    const sourceHandle =
+      meta.source_handle_id
+        ? `intention-${meta.source_handle_id}`
+        : meta.source_port_id !== undefined
+          ? `intention-${meta.source_port_id}`
+          : "output";
+    const targetHandle = meta.target_handle_id ?? "input";
     
     return {
       id: edgeData.id ?? `${edgeData.source_node_id}-${edgeData.target_node_id}-${index}`,
       source: edgeData.source_node_id ?? "",
       target: edgeData.target_node_id ?? "",
-      sourceHandle: "output",
-      targetHandle: "input",
+      sourceHandle,
+      targetHandle,
       animated: false,
       type: "arrowBezier",
       markerEnd: EDGE_MARKER_CONFIG,

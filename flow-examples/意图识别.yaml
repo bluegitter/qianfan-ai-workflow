@@ -1,0 +1,450 @@
+ab_version: 2.8.4
+app_desc: ''
+app_instance_config:
+  avatar_id: ''
+  avatar_path: ''
+  background:
+    id: ''
+    mobile_config: {}
+    path: ''
+    pc_config: {}
+  desc: ''
+  digitalhuman_config:
+    digitalType: official
+    dimensionType: 3D
+    enable: false
+    enable_avatar: false
+    figureId: ''
+    figure_deleted: false
+    isAutoPlay: true
+    ttsPer: ''
+    ttsPitch: 5
+    ttsSpeed: 5
+    ttsVolume: 5
+    type: digital
+    voiceAutoPlay: true
+    voicePer: '0'
+  history_chat_rounds: 2
+  instruction_template: []
+  intervention: {}
+  memory:
+    enable: true
+    variable:
+      schema_id: ''
+  model_resource_config:
+  - charge_status: Opened
+    has_free_quota: false
+    model_name: DeepSeek-R1
+    model_url: http://qianfan.baidubce.com/v2/chat/completions
+    resource: give_away
+    type: common
+    usages:
+      app_scenes:
+      - knowledge_backup_reply
+      - chat_backup_reply
+      official_components: []
+      workflows: []
+  name: 意图识别
+  prologue: ''
+  publish_config:
+    show_process: false
+    show_rag_reference: false
+  query_follow_up:
+    query_type: CLOSED
+  rtc:
+    default: false
+    enable: false
+  suggest_query: []
+app_name: 意图识别
+app_page_view: 0
+avatar: ''
+input_length: 150000
+is_like: false
+is_public: false
+latest_version: 0
+latest_version_id: ''
+like_count: 0
+model: {}
+publish_at: 0
+publish_num: 0
+published_is_latest: 4
+publisher_name: null
+rag_model: {}
+released_channel: []
+reminder_type: no_reminder
+suggest_query: []
+template_id: 27702d2a-038e-468d-98f3-b217d4258e31
+template_name: chatflow
+template_values:
+  actions: []
+  inputs: []
+type: chat
+updated_at: 1766567502
+version: {}
+workflow_detail:
+  code: d813687d-4590-4359-ad58-1ebdd61a6369
+  component_id: c-wf-f01311c9-3f79-40ff-98c3-72178d71c6c8
+  created_at: 1766567337
+  desc: ''
+  enable_api_call: false
+  enable_bd_search_mcp_publish: null
+  encrypt: true
+  external_related_app_count: 0
+  external_related_workflow_count: 0
+  has_api_components: false
+  icon: null
+  id: f01311c9-3f79-40ff-98c3-72178d71c6c8
+  is_stop: false
+  market_info: {}
+  max_version: 0
+  name: d813687d-4590-4359-ad58-1ebdd61a6369
+  node_version: []
+  private_clone_info:
+    private_node_count:
+      cfc: 0
+      doc_search: 0
+      llm: 0
+      workflow: 0
+    total_node_count: 0
+  published_at: 1766567337
+  related_apps: []
+  related_workflows: []
+  rev: {}
+  status: draft
+  stop_unavailable_components: []
+  templateId: templatecode_chatflow_empty
+  trial_run_completed: false
+  updated_at: 1766567502
+  workflow_schema:
+    edges:
+    - meta:
+        source_handle_id: 2c0aeb60f2ed4db3ae77506c94509e68
+        target_handle_id: a05a7e5e4cf44e4dbcacb35e4a3e7280
+      source_node_id: 0e1556f366a44c6d8af0bba28c004eb2
+      target_node_id: 7ce3ccdea4584049b6f7453ca969896d
+    - meta:
+        source_handle_id: ec66f1139c2e403181931cae72cbaff6
+        target_handle_id: e1d1d9f895f942b6bf22b842a509d593
+      source_node_id: 7ce3ccdea4584049b6f7453ca969896d
+      source_port_id: '0'
+      target_node_id: 9c28a5e57fa744d989e71dd699144312
+    - meta:
+        source_handle_id: 4e5448e796d94632a54e57f0dcdb957c
+        target_handle_id: 6550b33ce71446b3b1f70687bb317f65
+      source_node_id: 7ce3ccdea4584049b6f7453ca969896d
+      source_port_id: '1'
+      target_node_id: 7809c795881f4a8a97eb951ccb5b4cd5
+    - meta:
+        source_handle_id: 71c65f6a3868470fb33cceee7cd2fe3a
+        target_handle_id: 07ae3a29475549fbb237d939bd73fdd7
+      source_node_id: 7ce3ccdea4584049b6f7453ca969896d
+      source_port_id: '-1'
+      target_node_id: b68dc08f0ab14f84ab807cd065c6f67f
+    - meta:
+        source_handle_id: 25690537e32a416abb63fa3058811078
+        target_handle_id: aadaeb8b35c24ad0b8e9c5016a9e8232
+      source_node_id: 9c28a5e57fa744d989e71dd699144312
+      target_node_id: 32f3315e7b4441f3b0608812d7ccdc5b
+    - meta:
+        source_handle_id: 130c192e8db24b989a6920cfc16f4bca
+        target_handle_id: aadaeb8b35c24ad0b8e9c5016a9e8232
+      source_node_id: 7809c795881f4a8a97eb951ccb5b4cd5
+      target_node_id: 32f3315e7b4441f3b0608812d7ccdc5b
+    - meta:
+        source_handle_id: a61f1c58044c429dbb90068b82b683bd
+        target_handle_id: aadaeb8b35c24ad0b8e9c5016a9e8232
+      source_node_id: b68dc08f0ab14f84ab807cd065c6f67f
+      target_node_id: 32f3315e7b4441f3b0608812d7ccdc5b
+    global_config:
+      backup_reply:
+        chat:
+          additional_requirements: ''
+          character_style: 你是一位客服人员，善于耐心友好地回复用户的问题
+          enable_reasoning_visible: false
+          max_output_tokens: 2048
+          model_id: svcp-6a508a601951
+          model_name: DeepSeek-R1
+          model_type: common
+          model_url: http://qianfan.baidubce.com/v2/chat/completions
+          model_value: deepseek-r1
+          reasoning_model: false
+          temperature: 0.0001
+          top_p: 0.0001
+          web_search:
+            enable: false
+        knowledge:
+          datasets: []
+          enable_reasoning_visible: false
+          max_output_tokens: 1024
+          metadata_filters:
+            condition: or
+            filters: []
+            tag_filters: []
+          model_id: svcp-6a508a601951
+          model_name: DeepSeek-R1
+          model_type: common
+          model_url: http://qianfan.baidubce.com/v2/chat/completions
+          model_value: deepseek-r1
+          reasoning_model: false
+          scoring_threshold: 0.4
+          strategy: mixed_retrieval
+          temperature: 0.0001
+          top_k: 6
+          top_p: 0.0001
+          web_search:
+            enable: false
+      history_chat_rounds: 2
+    nodes:
+    - data:
+        inputs: []
+        outputs: []
+        settings: {}
+      id: 0e1556f366a44c6d8af0bba28c004eb2
+      meta:
+        handlers:
+          output: 2c0aeb60f2ed4db3ae77506c94509e68
+        uiState:
+          height: 298
+          width: 388
+          x: 0
+          y: 0
+      name: 开始
+      type: start
+    - data:
+        inputs:
+        - desc: ''
+          list_schema: null
+          meta:
+            canRemove: true
+            editable: true
+            id: 485b104d59d6481ca6319058cc007437
+            isDefaultParam: false
+          name: output
+          object_schema: null
+          required: false
+          type: string
+          value:
+            content:
+              ref_node_id: ''
+              ref_var_name: ''
+            type: ref
+        outputs: []
+        settings:
+          content: ''
+          streaming: false
+          terminate_plan: template
+      id: 32f3315e7b4441f3b0608812d7ccdc5b
+      meta:
+        content_tpl: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        handlers:
+          input: aadaeb8b35c24ad0b8e9c5016a9e8232
+        uiState:
+          height: 206
+          width: 388
+          x: 1452.25
+          y: -104
+      name: 结束
+      type: end
+    - data:
+        inputs:
+        - desc: ''
+          list_schema: null
+          meta:
+            canRemove: false
+            editable: true
+            id: 3562a0f4cae74bc3b85f4ebe4f54246c
+            isDefaultParam: false
+            ref_param_id: rawQuery
+          name: query
+          object_schema: null
+          required: true
+          type: string
+          value:
+            content:
+              ref_node_id: system
+              ref_var_name: rawQuery
+            type: ref
+        outputs:
+        - desc: ''
+          list_schema: null
+          meta:
+            editable: true
+            id: e3d8bb83641c47d99f7748c087857a4a
+            isDefaultParam: false
+            isModelOutputsConfigParam: false
+            isStreamingParam: false
+          name: classification
+          object_schema: null
+          required: false
+          type: string
+          value:
+            content: null
+            type: generated
+        - desc: ''
+          list_schema: null
+          meta:
+            editable: true
+            id: e1f410d5f3b6456280a4ddfbb7f6ebc0
+            isDefaultParam: false
+            isModelOutputsConfigParam: false
+            isStreamingParam: false
+          name: classificationID
+          object_schema: null
+          required: false
+          type: integer
+          value:
+            content: null
+            type: generated
+        settings:
+          intentions:
+          - desc: 意图1
+            global_selected: true
+            meta:
+              id: ec66f1139c2e403181931cae72cbaff6
+            name: 意图1
+            params: []
+            sentences: []
+          - desc: 意图2
+            global_selected: true
+            meta:
+              id: 4e5448e796d94632a54e57f0dcdb957c
+            name: 意图2
+            params: []
+            sentences: []
+          lite_mode: true
+          meta:
+            unmatedIntention:
+              id: 71c65f6a3868470fb33cceee7cd2fe3a
+          model:
+            chat_history: true
+            max_output_tokens: 2048
+            model_id: ''
+            model_name: ''
+            model_type: common
+            reasoning_model: false
+            system: ''
+            temperature: 0.0001
+            top_p: 0.0001
+      id: 7ce3ccdea4584049b6f7453ca969896d
+      meta:
+        handlers:
+          input: a05a7e5e4cf44e4dbcacb35e4a3e7280
+        uiState:
+          height: 386
+          width: 388
+          x: 433.5
+          y: -31
+      name: 意图识别
+      type: intention
+    - data:
+        inputs:
+        - desc: ''
+          list_schema: null
+          meta:
+            canRemove: true
+            editable: true
+            id: 4a8f8d00826447cbb8b8dfab14d1af83
+            isDefaultParam: false
+            ref_param_id: e3d8bb83641c47d99f7748c087857a4a
+          name: output
+          object_schema: null
+          required: false
+          type: string
+          value:
+            content:
+              ref_node_id: 7ce3ccdea4584049b6f7453ca969896d
+              ref_var_name: classification
+            type: ref
+        outputs: []
+        settings:
+          message_template: ''
+          streaming: false
+          terminate_plan: template
+      id: 9c28a5e57fa744d989e71dd699144312
+      meta:
+        handlers:
+          input: e1d1d9f895f942b6bf22b842a509d593
+          output: 25690537e32a416abb63fa3058811078
+        message_template_tpl: '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        uiState:
+          height: 208
+          width: 388
+          x: 900.5
+          y: -202
+      name: 消息
+      type: message
+    - data:
+        inputs:
+        - desc: ''
+          list_schema: null
+          meta:
+            canRemove: true
+            editable: true
+            id: a65f5a80fb9c4438a24219b9183d646a
+            isDefaultParam: false
+            ref_param_id: e3d8bb83641c47d99f7748c087857a4a
+          name: output
+          object_schema: null
+          required: false
+          type: string
+          value:
+            content:
+              ref_node_id: 7ce3ccdea4584049b6f7453ca969896d
+              ref_var_name: classification
+            type: ref
+        outputs: []
+        settings:
+          message_template: ''
+          streaming: false
+          terminate_plan: template
+      id: 7809c795881f4a8a97eb951ccb5b4cd5
+      meta:
+        handlers:
+          input: 6550b33ce71446b3b1f70687bb317f65
+          output: 130c192e8db24b989a6920cfc16f4bca
+        message_template_tpl: '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        uiState:
+          height: 208
+          width: 388
+          x: 896.75
+          y: 40
+      name: 消息_1
+      type: message
+    - data:
+        inputs:
+        - desc: ''
+          list_schema: null
+          meta:
+            canRemove: true
+            editable: true
+            id: 162bafc4e89f4980b0b4670e9a1de316
+            isDefaultParam: false
+            ref_param_id: e3d8bb83641c47d99f7748c087857a4a
+          name: output
+          object_schema: null
+          required: false
+          type: string
+          value:
+            content:
+              ref_node_id: 7ce3ccdea4584049b6f7453ca969896d
+              ref_var_name: classification
+            type: ref
+        outputs: []
+        settings:
+          message_template: ''
+          streaming: false
+          terminate_plan: template
+      id: b68dc08f0ab14f84ab807cd065c6f67f
+      meta:
+        handlers:
+          input: 07ae3a29475549fbb237d939bd73fdd7
+          output: a61f1c58044c429dbb90068b82b683bd
+        message_template_tpl: '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        uiState:
+          height: 208
+          width: 388
+          x: 893.75
+          y: 294
+      name: 消息_2
+      type: message
+workflow_id: f01311c9-3f79-40ff-98c3-72178d71c6c8

@@ -148,18 +148,37 @@ export function WorkflowCanvas() {
   }, [edges]);
 
   const onConnect = useCallback(
-    (connection: Connection) =>
+    (connection: Connection) => {
+      // 检查源节点是否是意图识别节点
+      const sourceNode = nodes.find(n => n.id === connection.source) as WorkflowNode | undefined;
+      const isIntentionNode = sourceNode?.data?.raw?.type === "intention";
+      
+      // 如果是意图节点，确保使用正确的源端口
+      let sourceHandle = connection.sourceHandle;
+      if (isIntentionNode && !sourceHandle) {
+        // 如果没有指定端口，默认使用第一个意图端口
+        const rawNodeData = sourceNode?.data?.raw as { data?: { settings?: { intentions?: Array<{ meta?: { id?: string } }> } } } | undefined;
+        const intentions = rawNodeData?.data?.settings?.intentions ?? [];
+        if (intentions.length > 0) {
+          sourceHandle = `intention-${intentions[0]?.meta?.id || 0}`;
+        } else {
+          sourceHandle = "intention-other";
+        }
+      }
+      
       setEdges((eds) =>
         addEdge(
           {
             ...connection,
+            sourceHandle,
             type: "arrowBezier",
             markerEnd: EDGE_MARKER_CONFIG,
           },
           eds,
         ),
-      ),
-    []
+      );
+    },
+    [nodes]
   );
 
   const centerView = useCallback(() => {

@@ -1,6 +1,7 @@
 import type { MarkerType } from "reactflow";
 
 export const DEFAULT_WORKFLOW_FILE = "flow-examples/意图识别/app.yaml";
+// export const DEFAULT_WORKFLOW_FILE = "flow-examples/意图识别.yaml";
 
 export const EDGE_MARKER_CONFIG = {
   type: "arrow" as MarkerType.ArrowClosed,
