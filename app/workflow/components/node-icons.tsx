@@ -4,6 +4,69 @@ export function renderNodeIcon(type?: NodeType): React.ReactNode {
   const iconProps = { xmlns: "http://www.w3.org/2000/svg", width: 20, height: 20, fill: "none", viewBox: "0 0 20 20" };
 
   const icons: Record<NodeType, React.ReactNode> = {
+    agent: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#4338CA" rx="5"></rect>
+        <path fill="#fff" d="M6.5 6.5h7a1 1 0 0 1 1 1v5.5a1 1 0 0 1-1 1h-4l-2 2v-2h-1a1 1 0 0 1-1-1v-5.5a1 1 0 0 1 1-1"/>
+      </svg>
+    ),
+    component: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#10b981" rx="5"></rect>
+        <path fill="#fff" d="M6 6.5h8a.5.5 0 0 1 .5.5v2.25H5.5V7a.5.5 0 0 1 .5-.5m-1 4.25h10v2.75a.5.5 0 0 1-.5.5H7l-2 1.5z"/>
+      </svg>
+    ),
+    mcp: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#1abc9c" rx="5"></rect>
+        <text x="6" y="12" fill="#fff" fontSize="6" fontFamily="Arial" fontWeight="700">MCP</text>
+      </svg>
+    ),
+    jump: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#f97316" rx="5"></rect>
+        <path fill="#fff" d="M7 6h6v2l-2 2 2 2v2H7v-2l2-2-2-2z"/>
+      </svg>
+    ),
+    jump_out: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#f97316" rx="5"></rect>
+        <path fill="#fff" d="M7 6h6v2.5L10.5 10 13 11.5V14H7v-2l2-1.5L7 9z"/>
+      </svg>
+    ),
+    database: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#7c3aed" rx="5"></rect>
+        <path fill="#fff" d="M6 7c0-1.105 2.015-2 4.5-2S15 5.895 15 7v6c0 1.105-2.015 2-4.5 2S6 14.105 6 13z"/>
+        <ellipse cx="10.5" cy="7" rx="4.5" ry="1.5" fill="#7c3aed"></ellipse>
+      </svg>
+    ),
+    knowledge: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#7c3aed" rx="5"></rect>
+        <path fill="#fff" d="M7 6.5h6.5v8H7z"/>
+        <path fill="#7c3aed" d="M7 6.5 5.5 5.25V13.5L7 14.5z"/>
+      </svg>
+    ),
+    memory: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#7c3aed" rx="5"></rect>
+        <path fill="#fff" d="M7 6.5h6v7H7z"/>
+        <path stroke="#7c3aed" strokeWidth="1.2" d="M8.5 5.5v9M11.5 5.5v9"/>
+      </svg>
+    ),
+    text: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#7c3aed" rx="5"></rect>
+        <path fill="#fff" d="M7 6h6v1.2H11.4v7H9.6v-7H7z"/>
+      </svg>
+    ),
+    stream: (
+      <svg {...iconProps}>
+        <rect width="20" height="20" fill="#7c3aed" rx="5"></rect>
+        <path fill="#fff" d="M6.5 6.5h7v2h-7zM6.5 10.5h7v2h-7zM6.5 14h7v1h-7z"/>
+      </svg>
+    ),
     start: (
       <svg {...iconProps}>
         <rect width="20" height="20" fill="#13b982" rx="5"></rect>
@@ -94,5 +157,6 @@ export function renderNodeIcon(type?: NodeType): React.ReactNode {
     ),
   };
 
+  if (!type) return null;
   return icons[type] || null;
 }

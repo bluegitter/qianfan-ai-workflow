@@ -17,11 +17,12 @@ import ReactFlow, {
 import type { Node } from "reactflow";
 import { DEFAULT_WORKFLOW_FILE, LAYOUT_SPACING, NODE_DIMENSIONS, EDGE_MARKER_CONFIG } from "../constants";
 import { loadWorkflowSchema, toReactFlowNodes, toReactFlowEdges } from "../utils";
-import type { WorkflowNode, SectionState } from "../types";
+import type { WorkflowNode, SectionState, NodeType } from "../types";
 import { QfNode } from "./nodes";
 import { ArrowBezier, edgeTypes } from "./edges";
 import { InspectorNode } from "./inspector";
 import { AppConfigSidebar, PaletteList } from "./sidebar";
+import { renderNodeIcon } from "./node-icons";
 
 const nodeTypes = { qfNode: QfNode };
 
@@ -316,21 +317,25 @@ export function WorkflowCanvas() {
 
 function Header({ onReload }: { onReload: () => void }) {
   return (
-    <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-3">
-      <div className="flex items-center gap-4">
-        <div className="text-base font-semibold text-slate-900">知识库问答工作流</div>
-        <div className="text-xs text-slate-500">暂无短信推送 · 工作流Agent</div>
-        <div className="rounded bg-slate-100 px-2 py-1 text-xs text-slate-600">
-          自动保存于 08:25:15
+    <header className="relative flex items-center justify-between border-b border-slate-200 bg-white px-6 h-14">
+      <div className="flex flex-col gap-0.5">
+        <div className="text-base font-semibold text-slate-900 leading-tight">知识库问答工作流</div>
+        <div className="flex items-center gap-2">
+          <div className="text-xs text-slate-500 leading-tight">暂无短信推送 · 工作流Agent</div>
+          <div className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600 leading-tight">
+            自动保存于 08:25:15
+          </div>
         </div>
       </div>
+      
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 text-sm text-slate-600">
+        <span>配置</span>
+        <span>发布</span>
+        <span>调优</span>
+        <span>分析</span>
+      </div>
+      
       <div className="flex items-center gap-2">
-        <div className="flex items-center gap-2 text-sm text-slate-600">
-          <span>配置</span>
-          <span>发布</span>
-          <span>调优</span>
-          <span>分析</span>
-        </div>
         <button
           onClick={onReload}
           className="rounded border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100"
@@ -420,12 +425,6 @@ function NodePalette({ onClose }: { onClose: () => void }) {
         className="mb-16 w-96 rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-3 flex items-center justify-between">
-          <input
-            placeholder="搜索节点、工具或Agent"
-            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-400"
-          />
-        </div>
         <PaletteList />
       </div>
     </div>

@@ -21,6 +21,7 @@ export type NodeType =
   | "service_http"
   | "api"
   | "llm"
+  | "agent"
   | "intention"
   | "chat"
   | "message"
@@ -28,7 +29,16 @@ export type NodeType =
   | "loop"
   | "branch"
   | "switch"
-  | "workflow";
+  | "workflow"
+  | "component"
+  | "mcp"
+  | "jump"
+  | "jump_out"
+  | "knowledge"
+  | "database"
+  | "memory"
+  | "text"
+  | "stream";
 
 export type NodeInput = {
   name?: string;

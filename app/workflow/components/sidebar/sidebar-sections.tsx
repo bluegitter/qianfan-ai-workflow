@@ -1,4 +1,6 @@
-import type { SectionState } from "../../types";
+import { useState } from "react";
+import type { SectionState, NodeType } from "../../types";
+import { renderNodeIcon } from "../node-icons";
 
 interface SidebarSectionProps {
   title: string;
@@ -26,16 +28,40 @@ export function SidebarSection({ title, open, onToggle, extra, content }: Sideba
   );
 }
 
+const labelToType: Record<string, NodeType> = {
+  大模型: "llm",
+  智能体: "agent",
+  组件: "component",
+  API: "api",
+  "MCP Server": "mcp",
+  "函数计算 CFC": "code",
+  意图识别: "intention",
+  全局跳转: "jump",
+  分支器: "branch",
+  代码: "code",
+  循环: "loop",
+  跳出循环: "jump_out",
+  参数聚合: "component",
+  知识库: "knowledge",
+  数据库: "database",
+  记忆变量: "memory",
+  文本处理: "text",
+  Query改写: "text",
+  流式数据处理: "stream",
+  信息收集: "chat",
+  消息节点: "message",
+};
+
 interface PaletteItemProps {
   label: string;
-  color: string;
 }
 
-export function PaletteItem({ label, color }: PaletteItemProps) {
+export function PaletteItem({ label }: PaletteItemProps) {
+  const type = labelToType[label] ?? "component";
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-slate-200 px-2 py-1 text-sm text-slate-800">
-      <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white ${color}`}>
-        {label.slice(0, 1)}
+    <div className="flex items-center gap-2 rounded-lg border border-slate-200 px-2 py-[6px] h-8 text-sm text-slate-800">
+      <span className="inline-flex h-6 w-6 items-center justify-center">
+        {renderNodeIcon(type)}
       </span>
       <span>{label}</span>
     </div>
@@ -43,46 +69,85 @@ export function PaletteItem({ label, color }: PaletteItemProps) {
 }
 
 export function PaletteList() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const allCategories = [
+    {
+      title: "理解&思考&生成",
+      items: ["大模型", "智能体"]
+    },
+    {
+      title: "工具引入",
+      items: ["组件", "API", "MCP Server", "函数计算 CFC"]
+    },
+    {
+      title: "业务逻辑",
+      items: ["意图识别", "全局跳转", "分支器", "代码", "循环", "跳出循环", "参数聚合"]
+    },
+    {
+      title: "信息&知识",
+      items: ["知识库", "数据库", "记忆变量", "文本处理", "Query改写", "流式数据处理"]
+    },
+    {
+      title: "输入&输出",
+      items: ["信息收集", "消息节点"]
+    }
+  ];
+
+  const filteredCategories = allCategories
+    .map(category => ({
+      ...category,
+      items: category.items.filter(item => 
+        item.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    }))
+    .filter(category => category.items.length > 0);
+
   return (
-    <div className="grid grid-cols-1 gap-3 text-sm">
-      <div>
-        <div className="mb-2 text-xs font-semibold text-slate-500">理解&思考&生成</div>
-        <div className="space-y-2">
-          <PaletteItem label="大模型" color="bg-indigo-600" />
-          <PaletteItem label="智能体" color="bg-indigo-600" />
-        </div>
+    <div className="grid grid-cols-1 gap-3 text-sm px-2 py-4">
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="搜索节点、工具或Agent"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full rounded-lg border border-slate-200 px-3 py-2 pr-9 text-sm text-slate-700 outline-none focus:border-indigo-400"
+        />
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="16" 
+          height="16" 
+          viewBox="0 0 16 16"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+        >
+          <path fill="currentColor" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+        </svg>
       </div>
-      <div>
-        <div className="mb-2 text-xs font-semibold text-slate-500">工具引入</div>
-        <div className="space-y-2">
-          <PaletteItem label="组件" color="bg-teal-500" />
-          <PaletteItem label="API" color="bg-teal-500" />
+      
+      {filteredCategories.map((category) => (
+        <div key={category.title}>
+          <div className="mb-2 text-xs font-semibold text-slate-500">{category.title}</div>
+          <div className="grid grid-cols-2 gap-2">
+            {category.items.map((item) => (
+              <PaletteItem key={item} label={item} />
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <div className="mb-2 text-xs font-semibold text-slate-500">业务逻辑</div>
-        <div className="space-y-2">
-          <PaletteItem label="意图识别" color="bg-orange-500" />
-          <PaletteItem label="分支器" color="bg-orange-500" />
-          <PaletteItem label="循环" color="bg-orange-500" />
-          <PaletteItem label="代码" color="bg-orange-500" />
+      ))}
+      
+      {filteredCategories.length === 0 && (
+        <div className="text-center text-slate-400 py-4">
+          没有找到匹配的节点
         </div>
-      </div>
-      <div>
-        <div className="mb-2 text-xs font-semibold text-slate-500">输入&输出</div>
-        <div className="space-y-2">
-          <PaletteItem label="信息收集" color="bg-pink-500" />
-          <PaletteItem label="消息节点" color="bg-pink-500" />
-        </div>
-      </div>
+      )}
     </div>
   );
 }
 
-export function AppConfigSidebar({ 
-  appSectionOpen, 
-  setAppSectionOpen 
-}: { 
+export function AppConfigSidebar({
+  appSectionOpen,
+  setAppSectionOpen,
+}: {
   appSectionOpen: SectionState;
   setAppSectionOpen: React.Dispatch<React.SetStateAction<SectionState>>;
 }) {
