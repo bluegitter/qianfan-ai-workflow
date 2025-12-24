@@ -316,14 +316,29 @@ export function WorkflowCanvas() {
 }
 
 function Header({ onReload }: { onReload: () => void }) {
+  const handleGoBack = () => {
+    window.history.back();
+  };
+
   return (
     <header className="relative flex items-center justify-between border-b border-slate-200 bg-white px-6 h-14">
-      <div className="flex flex-col gap-0.5">
-        <div className="text-base font-semibold text-slate-900 leading-tight">知识库问答工作流</div>
-        <div className="flex items-center gap-2">
-          <div className="text-xs text-slate-500 leading-tight">暂无短信推送 · 工作流Agent</div>
-          <div className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600 leading-tight">
-            自动保存于 08:25:15
+      <div className="flex items-center gap-4">
+        <button 
+          onClick={handleGoBack}
+          className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-slate-100 transition-colors"
+          title="返回"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+          </svg>
+        </button>
+        <div className="flex flex-col gap-0.5">
+          <div className="text-base font-semibold text-slate-900 leading-tight">知识库问答工作流</div>
+          <div className="flex items-center gap-2">
+            <div className="text-xs text-slate-500 leading-tight">暂无短信推送 · 工作流Agent</div>
+            <div className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600 leading-tight">
+              自动保存于 08:25:15
+            </div>
           </div>
         </div>
       </div>

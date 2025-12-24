@@ -104,7 +104,7 @@ export function PaletteList() {
     .filter(category => category.items.length > 0);
 
   return (
-    <div className="grid grid-cols-1 gap-3 text-sm px-2 py-4">
+    <div className="grid grid-cols-1 gap-3 text-sm px-2 py-4 min-h-[400px]">
       <div className="relative">
         <input
           type="text"
@@ -124,22 +124,24 @@ export function PaletteList() {
         </svg>
       </div>
       
-      {filteredCategories.map((category) => (
-        <div key={category.title}>
-          <div className="mb-2 text-xs font-semibold text-slate-500">{category.title}</div>
-          <div className="grid grid-cols-2 gap-2">
-            {category.items.map((item) => (
-              <PaletteItem key={item} label={item} />
-            ))}
+      <div className="flex flex-col gap-3">
+        {filteredCategories.map((category) => (
+          <div key={category.title}>
+            <div className="mb-2 text-xs font-semibold text-slate-500">{category.title}</div>
+            <div className="grid grid-cols-2 gap-2">
+              {category.items.map((item) => (
+                <PaletteItem key={item} label={item} />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-      
-      {filteredCategories.length === 0 && (
-        <div className="text-center text-slate-400 py-4">
-          没有找到匹配的节点
-        </div>
-      )}
+        ))}
+        
+        {filteredCategories.length === 0 && (
+          <div className="text-center text-slate-400 py-4">
+            没有找到匹配的节点
+          </div>
+        )}
+      </div>
     </div>
   );
 }
