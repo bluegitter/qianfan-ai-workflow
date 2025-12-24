@@ -96,8 +96,21 @@ export function NodeContent({ data, selected, isStart, isApi, isLlm, isEnd, isIn
     : [];
 
   return (
-    <div ref={cardRef} className={`rounded-lg border bg-white px-4 py-3 shadow-sm ${cardClass}`}>
-      {!isStart && <Handle id="input" type="target" position={Position.Left} isConnectable={isConnectable ?? true} />}
+    <div 
+      ref={cardRef} 
+      className={`rounded-lg border bg-white px-4 py-3 shadow-sm ${cardClass}`}
+      style={{ position: 'relative' }}
+    >
+      {!isStart && (
+        <Handle
+          id="input"
+          type="target"
+          position={Position.Left}
+          isConnectable={isConnectable ?? true}
+          style={{ top: "50%", transform: "translateY(-50%)" }}
+          className="react-flow__handle-left"
+        />
+      )}
       
       <NodeHeader data={data} isIntention={isIntention} isLoop={isLoop} isBranch={isBranch} isWorkflow={isWorkflow} />
       
@@ -125,7 +138,16 @@ export function NodeContent({ data, selected, isStart, isApi, isLlm, isEnd, isIn
           isConnectable={isConnectable ?? true}
         />
       ) : (
-        !isEnd && <Handle id="output" type="source" position={Position.Right} isConnectable={isConnectable ?? true} />
+        !isEnd && (
+          <Handle
+            id="output"
+            type="source"
+            position={Position.Right}
+            isConnectable={isConnectable ?? true}
+            style={{ top: "50%", transform: "translateY(-50%)" }}
+            className="react-flow__handle-right"
+          />
+        )
       )}
     </div>
   );
