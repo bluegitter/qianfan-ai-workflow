@@ -1,0 +1,215 @@
+action: manage
+artifact_id: 6e59c3e1-3754-4731-bfdb-830a19a6acec
+code: ChuYi2
+created_at: 1765785086
+creator_name: xt_luoxw
+desc: "\u6570\u503C\u9664\u4EE52 \uFF0C\u8FD4\u56DE\u6574\u6570"
+external_related_app_count: 0
+external_related_workflow_count: 0
+has_api_components: false
+icon: null
+id: a6062bbc-34c2-4542-b1b8-0af24a0c96ba
+is_stop: true
+market_info: {}
+max_version: 1
+name: "\u9664\u4EE52"
+published_at: 1765785408
+related_apps: []
+related_workflows: []
+rev:
+  current:
+    artifact_id: 6e59c3e1-3754-4731-bfdb-830a19a6acec
+    created_at: 1765785408
+    desc: ff
+    version: 1
+  latest:
+    artifact_id: 6e59c3e1-3754-4731-bfdb-830a19a6acec
+    created_at: 1765785408
+    desc: ff
+    version: 1
+status: published
+stop_unavailable_components: []
+task_id: ''
+templateId: templatecode_empty
+trial_run_completed: false
+updated_at: 1765785408
+visibility: public
+workflow_schema:
+  edges:
+  - meta:
+      source_handle_id: 29ebf1900a1d4ac8bf35bf4e03955cdd
+      target_handle_id: f9d298056c664bb9a3d45260a66d7ac6
+    source_node_id: 19f053ce6e9c4cf1ab900d6103e2c02d
+    target_node_id: a083c87424464e6c95cc3cff370f7a33
+  - meta:
+      source_handle_id: bf6ebae5dadd4ee48b5a58a19ce17876
+      target_handle_id: 47194adb2e1a41e0894d086bc0d4105c
+    source_node_id: a083c87424464e6c95cc3cff370f7a33
+    target_node_id: 6932c63b0cc94c8d980cbe80a843917e
+  nodes:
+  - data:
+      inputs: []
+      outputs:
+      - desc: fffff
+        list_schema: null
+        meta:
+          id: dcac34079a9447e29ec4e97f7a31cc31
+          isDefaultParam: false
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: input
+        object_schema: null
+        required: true
+        type: integer
+        value:
+          content: null
+          type: generated
+      settings: {}
+    id: 19f053ce6e9c4cf1ab900d6103e2c02d
+    meta:
+      handlers:
+        output: 29ebf1900a1d4ac8bf35bf4e03955cdd
+    name: "\u5F00\u59CB"
+    type: start
+  - data:
+      inputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: 2e2385f350b44608991b16505f2c492e
+          isDefaultParam: false
+          ref_param_id: 43faedf358b249b1b20b682063166642
+        name: result
+        object_schema: null
+        required: false
+        type: integer
+        value:
+          content:
+            ref_node_id: a083c87424464e6c95cc3cff370f7a33
+            ref_var_name: key0
+          type: ref
+      outputs: []
+      settings:
+        content: ''
+        streaming: false
+        terminate_plan: direct
+    id: 6932c63b0cc94c8d980cbe80a843917e
+    meta:
+      handlers:
+        input: 47194adb2e1a41e0894d086bc0d4105c
+    name: "\u7ED3\u675F"
+    type: end
+  - data:
+      inputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: 44b7ee69c28c4244834acbf8b59dfbfc
+          isDefaultParam: false
+          ref_param_id: dcac34079a9447e29ec4e97f7a31cc31
+        name: inputCount
+        object_schema: null
+        required: true
+        type: integer
+        value:
+          content:
+            ref_node_id: 19f053ce6e9c4cf1ab900d6103e2c02d
+            ref_var_name: input
+          type: ref
+      outputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          id: 43faedf358b249b1b20b682063166642
+          isDefaultParam: false
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: key0
+        object_schema: null
+        required: false
+        type: integer
+        value:
+          content: null
+          type: generated
+      - desc: ''
+        list_schema: null
+        meta:
+          id: 06dfdbc81b47485f9b65eb1299ff4c3f
+          isDefaultParam: false
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: key3
+        object_schema:
+        - desc: ''
+          list_schema: null
+          meta:
+            id: 728f466f27d94aeabda1a84860ea6a3c
+          name: key3_1
+          object_schema: null
+          required: false
+          type: string
+        - desc: ''
+          list_schema: null
+          meta:
+            id: 1e33bf6b81ff4c45bad4da950dd992fe
+          name: key3_2
+          object_schema: null
+          required: false
+          type: number
+        - desc: ''
+          list_schema:
+            list_schema: null
+            object_schema: null
+            type: string
+          meta:
+            id: c7f088111a384153bcee83ec02ee6357
+          name: key3_3
+          object_schema: null
+          required: false
+          type: list
+        - desc: ''
+          list_schema: null
+          meta:
+            id: 0d8175e9f5ec4471840f39c60be75a02
+          name: key3_4
+          object_schema:
+          - desc: ''
+            list_schema: null
+            meta:
+              id: 6c994a12549a444f92a1cf7ddf8ca171
+            name: key3_4_1
+            object_schema: null
+            required: false
+            type: string
+          required: false
+          type: object
+        required: false
+        type: object
+        value:
+          content: null
+          type: generated
+      settings:
+        code: "# \u5B9A\u4E49\u4E00\u4E2A main \u51FD\u6570\uFF0C\u4F20\u5165 params\
+          \ \u53C2\u6570\u3002params \u4E2D\u5305\u542B\u4E86\u8282\u70B9\u914D\u7F6E\
+          \u7684\u8F93\u5165\u53D8\u91CF\u3002\n# \u9700\u8981\u5B9A\u4E49\u4E00\u4E2A\
+          \u5B57\u5178\u4F5C\u4E3A\u8F93\u51FA\u53D8\u91CF\n# \u5F15\u7528\u8282\u70B9\
+          \u5B9A\u4E49\u7684\u53D8\u91CF\uFF1Aparams['\u53D8\u91CF\u540D']\n# \u8FD0\
+          \u884C\u73AF\u5883 Python3\uFF1B\u9884\u7F6E Package\uFF1ANumPy\n\ndef main(params):\n\
+          \n    # \u521B\u5EFA\u4E00\u4E2A\u5B57\u5178\u4F5C\u4E3A\u8F93\u51FA\u53D8\
+          \u91CF\n    output_object ={\n    \n        # \u5F15\u7528\u8282\u70B9\u5B9A\
+          \u4E49\u7684 city \u53D8\u91CF\n        \"key0\": params['inputCount']//2,\n\
+          \        \n    }\n    \n    # \u8FD4\u56DE\u8F93\u51FA\u5B57\u5178\u7C7B\
+          \u578B\u53D8\u91CF output_object\uFF0C\u5305\u542B\u4EE3\u7801\u8282\u70B9\
+          \u6240\u9700\u7684\u8F93\u51FA\u6570\u636E\n    return output_object"
+        language: Python
+    id: a083c87424464e6c95cc3cff370f7a33
+    meta:
+      handlers:
+        input: f9d298056c664bb9a3d45260a66d7ac6
+        output: bf6ebae5dadd4ee48b5a58a19ce17876
+    name: "\u4EE3\u7801"
+    type: code

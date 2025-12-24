@@ -1,0 +1,1102 @@
+action: manage
+artifact_id: null
+code: 8d574c22-a1c7-4ea2-8387-db1ea4235d8d
+created_at: 1765780812
+creator_name: xt_luoxw
+desc: ''
+external_related_app_count: 0
+external_related_workflow_count: 0
+has_api_components: false
+icon: null
+id: 0a147dd7-3a78-47cc-a06f-290e8c66331a
+is_stop: false
+market_info: {}
+max_version: 0
+name: "\u610F\u56FE\u8BC6\u522B\u5FAA\u73AF"
+published_at: 1765780812
+related_apps: []
+related_workflows: []
+rev: {}
+status: draft
+stop_unavailable_components: []
+task_id: ''
+templateId: templatecode_chatflow_empty
+trial_run_completed: false
+updated_at: 1765785695
+visibility: public
+workflow_schema:
+  edges:
+  - meta:
+      source_handle_id: 287f820af9234250a3090ce0c36ee8a2
+      target_handle_id: 66bbfd9f846348abab9d346d48ace6a5
+    source_node_id: 503a2f1cadd64cbbad49010a4f31a97b
+    target_node_id: f523eacba6db4c19b8918e3bb23df3cc
+  - meta:
+      source_handle_id: a27fdf4386494667b562f43053555123
+      target_handle_id: 2df7f3a3673244d8a5518bb3dd78a8cc
+    source_node_id: f523eacba6db4c19b8918e3bb23df3cc
+    source_port_id: '0'
+    target_node_id: cf7bfa7155004d7cbb6e01e143476cb7
+  - meta:
+      source_handle_id: d4e5177781db45e89cf56db0fc3641f1
+      target_handle_id: fd2a5f3460cf4cf78a322904fbaa275b
+    source_node_id: f523eacba6db4c19b8918e3bb23df3cc
+    source_port_id: '-1'
+    target_node_id: 6b8123eba96e4329903ef6e4e5790331
+  - meta:
+      source_handle_id: b87ac455e63b450bb70447baae504c8a
+      target_handle_id: 38f1116f10434faf8488c4e095c4b841
+    source_node_id: f523eacba6db4c19b8918e3bb23df3cc
+    source_port_id: '1'
+    target_node_id: 370f48a53be046c38538baf0acda29fd
+  - meta:
+      source_handle_id: 4672030461c240058a0198305484c9a0
+      target_handle_id: 9bed0d21b90847389608536ff94c2c81
+    source_node_id: cf7bfa7155004d7cbb6e01e143476cb7
+    target_node_id: 011edbd7957446de953583afeda498d6
+  - meta:
+      source_handle_id: 663216bb369441cb8d7b4ec82a04696d
+      target_handle_id: e417c7fdf51b4981a7b0d677f383e0a8
+    source_node_id: 6b8123eba96e4329903ef6e4e5790331
+    target_node_id: 0d222159545b401a81f2a1a65bacf1df
+  - meta:
+      source_handle_id: 9f112bfef79b47f79d374be801129ce0
+      target_handle_id: 2df7f3a3673244d8a5518bb3dd78a8cc
+    source_node_id: 0d222159545b401a81f2a1a65bacf1df
+    target_node_id: cf7bfa7155004d7cbb6e01e143476cb7
+  - meta:
+      source_handle_id: 867d9f9fd29b474ca9d887c2234b5ac8
+      target_handle_id: 9bed0d21b90847389608536ff94c2c81
+    source_node_id: 4543f0b2490e49689e921e94b6542249
+    target_node_id: 011edbd7957446de953583afeda498d6
+  - meta:
+      source_handle_id: 6c6644b64a2743768ae2258923c95797
+      target_handle_id: 4994a396f1b34dc0b1cf058af9b61be9
+    source_node_id: 370f48a53be046c38538baf0acda29fd
+    target_node_id: 27173a04146c4442a40caa4ffc1297a1
+  - meta:
+      source_handle_id: ae680e44dce44ecab3ba750cf09ffbde
+      target_handle_id: 04e9e903c80849129b7d474bad991d32
+    source_node_id: 27173a04146c4442a40caa4ffc1297a1
+    target_node_id: 0b4e5f6834a5413da246ba57f24a9ea3
+  - meta:
+      source_handle_id: 0b892564980d4282b79fe703c6393b36
+      target_handle_id: ff8665edb4fe4730b6f046b07ff1ea40
+    source_node_id: 0b4e5f6834a5413da246ba57f24a9ea3
+    source_port_id: '0'
+    target_node_id: 4543f0b2490e49689e921e94b6542249
+  - meta:
+      source_handle_id: e374853a679840f099711d194afebf1a
+      target_handle_id: 6aa55450525847c2899f00d36c9a51db
+    source_node_id: 0b4e5f6834a5413da246ba57f24a9ea3
+    source_port_id: '-1'
+    target_node_id: eee417f844794af08bc87aa81eb363c6
+  - meta:
+      source_handle_id: f801483beaf44df0a4382a8606d707c4
+      target_handle_id: 9bed0d21b90847389608536ff94c2c81
+    source_node_id: eee417f844794af08bc87aa81eb363c6
+    target_node_id: 011edbd7957446de953583afeda498d6
+  - meta:
+      source_handle_id: f801483beaf44df0a4382a8606d707c4
+      target_handle_id: 608acb1ec8f7407ca25e9a2cf03d52e1
+    source_node_id: eee417f844794af08bc87aa81eb363c6
+    target_node_id: e6b0c8c24cbc4513b092bd4f4abc8391
+  - meta:
+      source_handle_id: e28c20f535d046c188ebbc5c90653b54
+      target_handle_id: 384aa4d581e24171b92b977fdab67812
+    source_node_id: e6b0c8c24cbc4513b092bd4f4abc8391
+    target_node_id: 17a6d0b4817d45eab868b389f48bd2c7
+  - meta:
+      source_handle_id: e28c20f535d046c188ebbc5c90653b54
+      target_handle_id: 9bed0d21b90847389608536ff94c2c81
+    source_node_id: e6b0c8c24cbc4513b092bd4f4abc8391
+    target_node_id: 011edbd7957446de953583afeda498d6
+  - meta:
+      source_handle_id: e462aa2f870048bda9c0863977c9c5b8
+      target_handle_id: 9bed0d21b90847389608536ff94c2c81
+    source_node_id: 17a6d0b4817d45eab868b389f48bd2c7
+    target_node_id: 011edbd7957446de953583afeda498d6
+  global_config:
+    backup_reply:
+      chat:
+        additional_requirements: ''
+        character_style: "\u4F60\u662F\u4E00\u4F4D\u5BA2\u670D\u4EBA\u5458\uFF0C\u5584\
+          \u4E8E\u8010\u5FC3\u53CB\u597D\u5730\u56DE\u590D\u7528\u6237\u7684\u95EE\
+          \u9898"
+        disable_search: true
+        model_name: eb-speed-appbuilder
+        temperature: 0.0001
+        top_p: 0.0001
+      knowledge:
+        datasets: []
+        model_name: eb-speed-appbuilder
+        scoring_threshold: 0.01
+        strategy: mixed_retrieval
+        temperature: 0.0001
+        top_k: 6
+        top_p: 0.0001
+    history_chat_rounds: 2
+  nodes:
+  - data:
+      inputs: []
+      outputs: []
+      settings: {}
+    id: 503a2f1cadd64cbbad49010a4f31a97b
+    meta:
+      handlers:
+        output: 287f820af9234250a3090ce0c36ee8a2
+    name: "\u5F00\u59CB"
+    type: start
+  - data:
+      inputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: 530284bd3d1f4a53acca85723a129c90
+          isDefaultParam: false
+          ref_param_id: 22d507ef816140e9b89d55cb11a4aae4
+        name: cc
+        object_schema: null
+        required: false
+        type: integer
+        value:
+          content:
+            ref_node_id: f523eacba6db4c19b8918e3bb23df3cc
+            ref_var_name: classificationID
+          type: ref
+      outputs: []
+      settings:
+        content: over
+        streaming: false
+        terminate_plan: template
+    id: 011edbd7957446de953583afeda498d6
+    meta:
+      handlers:
+        input: 9bed0d21b90847389608536ff94c2c81
+    name: "\u7ED3\u675F"
+    type: end
+  - data:
+      inputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: 57db46d0de3e42b6bb6e9324822527fe
+          isDefaultParam: false
+          ref_param_id: rawQuery
+        name: query
+        object_schema: null
+        required: true
+        type: string
+        value:
+          content:
+            ref_node_id: system
+            ref_var_name: rawQuery
+          type: ref
+      outputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          id: 5d281f6efe194087942e4fe539b378a5
+          isDefaultParam: true
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: classification
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: generated
+      - desc: ''
+        list_schema: null
+        meta:
+          id: 22d507ef816140e9b89d55cb11a4aae4
+          isDefaultParam: true
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: classificationID
+        object_schema: null
+        required: false
+        type: integer
+        value:
+          content: null
+          type: generated
+      settings:
+        intentions:
+        - desc: "\u7528\u6237\u5728\u548C\u4F60\u6253\u62DB\u547C\u6216\u8005\u95EE\
+            \u597D"
+          global_selected: true
+          meta:
+            id: a27fdf4386494667b562f43053555123
+          name: "\u6253\u62DB\u547C"
+          params: []
+          sentences: []
+        - desc: "\u7528\u6237\u5982\u679C\u8BF4\u4E86\u4E00\u4E2A\u6570\u5B57 \uFF0C\
+            \ \u6CA1\u6709\u660E\u786E\u8BF4\u6CD5\u7684\u60C5\u51B5\u4E0B\uFF0C\u89C6\
+            \u4E3A\u5FAA\u73AF\u6B21\u6570"
+          global_selected: true
+          meta:
+            id: b87ac455e63b450bb70447baae504c8a
+          name: "\u5FAA\u73AF\u6B21\u6570"
+          params: []
+          sentences: []
+        lite_mode: true
+        meta:
+          unmatedIntention:
+            id: d4e5177781db45e89cf56db0fc3641f1
+        model:
+          chat_history: false
+          model_name: xiyansql_qwencoder_32b_2412
+          system: ''
+          temperature: 0.1
+          top_p: 0.1
+    id: f523eacba6db4c19b8918e3bb23df3cc
+    meta:
+      handlers:
+        input: 66bbfd9f846348abab9d346d48ace6a5
+    name: "\u610F\u56FE\u8BC6\u522B"
+    type: intention
+  - data:
+      inputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: cb3db0e03d1f4dfb953e7c463bea973e
+          isDefaultParam: false
+          ref_param_id: 5d281f6efe194087942e4fe539b378a5
+        name: classify
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content:
+            ref_node_id: f523eacba6db4c19b8918e3bb23df3cc
+            ref_var_name: classification
+          type: ref
+      outputs: []
+      settings:
+        message_template: ''
+        streaming: false
+        terminate_plan: direct
+    id: cf7bfa7155004d7cbb6e01e143476cb7
+    meta:
+      handlers:
+        input: 2df7f3a3673244d8a5518bb3dd78a8cc
+        output: 4672030461c240058a0198305484c9a0
+    name: "\u6D88\u606F"
+    type: message
+  - data:
+      inputs: []
+      outputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          id: 5bee67017a1346f5a0768dd7eee73b50
+          isDefaultParam: true
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: query
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: generated
+      - desc: ''
+        list_schema: null
+        meta:
+          id: 505d80dc3c6b4ef2819c9be04729c46e
+          isDefaultParam: true
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: chatflowHistory
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: generated
+      - desc: ''
+        list_schema:
+          list_schema: null
+          object_schema: null
+          type: string
+        meta:
+          id: f9b461982d1041798355db1253f8a990
+          isDefaultParam: true
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: fileUrls
+        object_schema: null
+        required: false
+        type: list
+        value:
+          content: null
+          type: generated
+      - desc: ''
+        list_schema:
+          list_schema: null
+          object_schema: null
+          type: string
+        meta:
+          id: cc8fe9901ef34971a4298d6e6f79b953
+          isDefaultParam: true
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: fileNames
+        object_schema: null
+        required: false
+        type: list
+        value:
+          content: null
+          type: generated
+      - desc: "\u505A\u4EC0\u4E48"
+        list_schema: null
+        meta:
+          id: 8fa9fbc1b73043b08062829429bb3e05
+          isDefaultParam: false
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: do_what
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: generated
+      - desc: "\u505A\u591A\u5C11\u6B21\uFF0C\u5982\u679C\u6CA1\u6709\u52190"
+        list_schema: null
+        meta:
+          id: 296d3c533a2f45a4bd84b383aeb6c76a
+          isDefaultParam: false
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: do_count
+        object_schema: null
+        required: false
+        type: number
+        value:
+          content: null
+          type: generated
+      settings:
+        model:
+          chat_history: false
+          model_name: xiyansql_qwencoder_32b_2412
+          system: ''
+          temperature: 0.1
+        params:
+        - desc: "\u505A\u4EC0\u4E48"
+          list_schema: null
+          meta:
+            id: 8fa9fbc1b73043b08062829429bb3e05
+            isDefaultParam: false
+            isModelOutputsConfigParam: false
+            isStreamingParam: false
+          name: do_what
+          object_schema: null
+          required: false
+          type: string
+          value:
+            content: null
+            type: generated
+        - desc: "\u505A\u591A\u5C11\u6B21\uFF0C\u5982\u679C\u6CA1\u6709\u52190"
+          list_schema: null
+          meta:
+            id: 296d3c533a2f45a4bd84b383aeb6c76a
+            isDefaultParam: false
+            isModelOutputsConfigParam: false
+            isStreamingParam: false
+          name: do_count
+          object_schema: null
+          required: false
+          type: number
+          value:
+            content: null
+            type: generated
+        question_template: "\u6211\u4E0D\u592A\u660E\u767D\u60A8\u7684\u610F\u601D\
+          \uFF0C \u53EF\u4EE5\u8BE6\u7EC6\u63CF\u8FF0\u9700\u6C42\u5417\uFF1F"
+        streaming: false
+    id: 6b8123eba96e4329903ef6e4e5790331
+    meta:
+      handlers:
+        input: fd2a5f3460cf4cf78a322904fbaa275b
+        output: 663216bb369441cb8d7b4ec82a04696d
+    name: "\u4FE1\u606F\u6536\u96C6"
+    type: chat
+  - data:
+      inputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: 1527e46b180f454fb33120889f19f9ff
+          isDefaultParam: false
+          ref_param_id: 8fa9fbc1b73043b08062829429bb3e05
+        name: do_what
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content:
+            ref_node_id: 6b8123eba96e4329903ef6e4e5790331
+            ref_var_name: do_what
+          type: ref
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: 9b5d1987c96745038de52ec1458b9bf0
+          isDefaultParam: false
+          ref_param_id: 296d3c533a2f45a4bd84b383aeb6c76a
+        name: ddcount
+        object_schema: null
+        required: false
+        type: number
+        value:
+          content:
+            ref_node_id: 6b8123eba96e4329903ef6e4e5790331
+            ref_var_name: do_count
+          type: ref
+      outputs: []
+      settings:
+        message_template: "\u4F60\u60F3\u8981\uFF1A {{do_what}} \u91CD\u590D{{ddcount}}\u6B21"
+        streaming: false
+        terminate_plan: template
+    id: 0d222159545b401a81f2a1a65bacf1df
+    meta:
+      handlers:
+        input: e417c7fdf51b4981a7b0d677f383e0a8
+        output: 9f112bfef79b47f79d374be801129ce0
+    name: "\u6D88\u606F_1"
+    type: message
+  - data:
+      inputs:
+      - desc: ''
+        list_schema:
+          list_schema: null
+          object_schema: null
+          type: string
+        meta:
+          canRemove: false
+          editable: true
+          id: 6633206c3c864fdf8e0e5fe63524d7ff
+          isDefaultParam: false
+          ref_param_id: 4f019ed365484945bc1e334123477835
+        name: count
+        object_schema: null
+        required: true
+        type: list
+        value:
+          content:
+            ref_node_id: 27173a04146c4442a40caa4ffc1297a1
+            ref_var_name: key2
+          type: ref
+      outputs: []
+      settings:
+        array_item_dict:
+          count: item_count
+        execute_info:
+          task_size: 2
+          type: loop
+        loop_type: array
+        loop_workflow_schema:
+          edges:
+          - meta:
+              source_handle_id: bda768ee805042b7a6f6bbe66ebbfbb6
+              target_handle_id: 96c95774db7e44e390e52f2a0dd655c0
+            source_node_id: c3db0f4acd8f4065ac25df8ecc4759e0
+            target_node_id: 1717c449a8164f478bf934e7550cfc58
+          - meta:
+              source_handle_id: 9211e3dc92a34a18bed0ad3d184e0d3c
+              target_handle_id: efc88ae1e19e45658ab5503062cb5be9
+            source_node_id: 1717c449a8164f478bf934e7550cfc58
+            target_node_id: 73090e06e3884b0cbd218916801afd49
+          nodes:
+          - data:
+              inputs: []
+              outputs: []
+              settings: {}
+            id: c3db0f4acd8f4065ac25df8ecc4759e0
+            meta:
+              handlers:
+                output: bda768ee805042b7a6f6bbe66ebbfbb6
+              uiState:
+                height: 1
+                width: 1
+                x: 0
+                y: 0
+            name: "\u5F00\u59CB_1"
+            type: start
+          - data:
+              inputs: []
+              outputs: []
+              settings:
+                content: ''
+                streaming: false
+                terminate_plan: template
+            id: 73090e06e3884b0cbd218916801afd49
+            meta:
+              handlers:
+                input: efc88ae1e19e45658ab5503062cb5be9
+              uiState:
+                height: 1
+                width: 1
+                x: 0
+                y: 0
+            name: "\u7ED3\u675F_1"
+            type: end
+          - data:
+              inputs:
+              - desc: ''
+                list_schema: null
+                meta:
+                  canRemove: true
+                  editable: true
+                  id: b083863111124ff2ae519be69befa670
+                  isDefaultParam: false
+                  ref_param_id: 0a3457b4932c4d739427fcf22bbe3f1e
+                name: index
+                object_schema: null
+                required: false
+                type: integer
+                value:
+                  content:
+                    ref_node_id: 4543f0b2490e49689e921e94b6542249
+                    ref_var_name: index
+                  type: ref
+              - desc: ''
+                list_schema: null
+                meta:
+                  canRemove: true
+                  editable: true
+                  id: cfcabd054c03416186c881b6f030b137
+                  isDefaultParam: false
+                  ref_param_id: 1be4890b75f9423ab1afb195dbda79f0
+                name: total
+                object_schema: null
+                required: false
+                type: string
+                value:
+                  content:
+                    ref_node_id: 4543f0b2490e49689e921e94b6542249
+                    ref_var_name: item_count
+                  type: ref
+              outputs: []
+              settings:
+                message_template: "\u5F39jj{{total}}\u6B21\uFF0C\u7B2C{{index}}\u6B21"
+                streaming: false
+                terminate_plan: template
+            id: 1717c449a8164f478bf934e7550cfc58
+            meta:
+              handlers:
+                input: 96c95774db7e44e390e52f2a0dd655c0
+                output: 9211e3dc92a34a18bed0ad3d184e0d3c
+              uiState:
+                height: 235
+                width: 388
+                x: 119
+                y: 44
+            name: "\u6D88\u606F_2"
+            type: message
+    id: 4543f0b2490e49689e921e94b6542249
+    meta:
+      handlers:
+        input: ff8665edb4fe4730b6f046b07ff1ea40
+        output: 867d9f9fd29b474ca9d887c2234b5ac8
+      indexId: 0a3457b4932c4d739427fcf22bbe3f1e
+      loop_array_to_loop_var_mapping:
+        6633206c3c864fdf8e0e5fe63524d7ff: 1be4890b75f9423ab1afb195dbda79f0
+      uiState:
+        height: 324
+        width: 556
+    name: "\u5FAA\u73AF"
+    type: loop
+  - data:
+      inputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: e28f63796a43424281d73e80f42570d9
+          isDefaultParam: false
+          ref_param_id: rawQuery
+        name: yitu
+        object_schema: null
+        required: true
+        type: string
+        value:
+          content:
+            ref_node_id: system
+            ref_var_name: rawQuery
+          type: ref
+      outputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          id: 55f427d1266b49098b7c802d87611532
+          isDefaultParam: false
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: yitu_count
+        object_schema: null
+        required: false
+        type: integer
+        value:
+          content: null
+          type: generated
+      settings:
+        llm_advanced_parameters: []
+        model_name: xiyansql_qwencoder_32b_2412
+        model_provider: official
+        prompt: "\u7406\u89E3\u4EE5\u4E0B\u7528\u6237\u7684\u610F\u56FE\uFF0C\u62BD\
+          \u53D6\u5176\u4E2D\u5173\u4E8E\u5FAA\u73AF\u6B21\u6570\u7684\u6570\u503C\
+          \uFF0C\u8FD4\u56DE\u6570\u503C Integer\u7C7B\u578B\uFF0C\u5982\u679C\u65E0\
+          \u6CD5\u83B7\u53D6\u5219\u8FD4\u56DE0\n{{yitu}} "
+        system: ''
+        temperature: 0.1
+        top_p: 0.1
+    id: 370f48a53be046c38538baf0acda29fd
+    meta:
+      completion_details:
+        desc: ''
+        list_schema: null
+        meta:
+          id: 047a490fd15242cc94fa9955f2074908
+          isDefaultParam: false
+          isModelOutputsConfigParam: true
+          isStreamingParam: false
+        name: completion_details
+        object_schema: []
+        required: false
+        type: object
+        value:
+          content: null
+          type: generated
+      handlers:
+        input: 38f1116f10434faf8488c4e095c4b841
+        output: 6c6644b64a2743768ae2258923c95797
+    name: "\u5927\u6A21\u578B"
+    type: llm
+  - data:
+      inputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: 4860d820cba34e40948976f9d9fbbf42
+          isDefaultParam: false
+          ref_param_id: 55f427d1266b49098b7c802d87611532
+        name: yitu_count
+        object_schema: null
+        required: true
+        type: integer
+        value:
+          content:
+            ref_node_id: 370f48a53be046c38538baf0acda29fd
+            ref_var_name: yitu_count
+          type: ref
+      outputs:
+      - desc: ''
+        list_schema:
+          list_schema: null
+          object_schema: null
+          type: string
+        meta:
+          id: 4f019ed365484945bc1e334123477835
+          isDefaultParam: false
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: key2
+        object_schema: null
+        required: false
+        type: list
+        value:
+          content: null
+          type: generated
+      settings:
+        code: "# \u5B9A\u4E49\u4E00\u4E2A main \u51FD\u6570\uFF0C\u4F20\u5165 params\
+          \ \u53C2\u6570\u3002params \u4E2D\u5305\u542B\u4E86\u8282\u70B9\u914D\u7F6E\
+          \u7684\u8F93\u5165\u53D8\u91CF\u3002\n# \u9700\u8981\u5B9A\u4E49\u4E00\u4E2A\
+          \u5B57\u5178\u4F5C\u4E3A\u8F93\u51FA\u53D8\u91CF\n# \u5F15\u7528\u8282\u70B9\
+          \u5B9A\u4E49\u7684\u53D8\u91CF\uFF1Aparams['\u53D8\u91CF\u540D']\n# \u8FD0\
+          \u884C\u73AF\u5883 Python3\uFF1B\u9884\u7F6E Package\uFF1ANumPy\n\ndef main(params):\n\
+          \n    # \u521B\u5EFA\u4E00\u4E2A\u5B57\u5178\u4F5C\u4E3A\u8F93\u51FA\u53D8\
+          \u91CF\n    output_object ={\n     \n        \"key2\": ['1'] * params['yitu_count']\
+          \ \n    }\n    \n    # \u8FD4\u56DE\u8F93\u51FA\u5B57\u5178\u7C7B\u578B\u53D8\
+          \u91CF output_object\uFF0C\u5305\u542B\u4EE3\u7801\u8282\u70B9\u6240\u9700\
+          \u7684\u8F93\u51FA\u6570\u636E\n    return output_object"
+        language: Python
+    id: 27173a04146c4442a40caa4ffc1297a1
+    meta:
+      handlers:
+        input: 4994a396f1b34dc0b1cf058af9b61be9
+        output: ae680e44dce44ecab3ba750cf09ffbde
+    name: "\u4EE3\u7801"
+    type: code
+  - data:
+      inputs:
+      - conditions:
+        - left:
+            desc: ''
+            list_schema: null
+            meta:
+              canRemove: true
+              editable: true
+              id: 767aa6be4f284f7ea136a0b996d52205
+              isDefaultParam: false
+              ref_param_id: 55f427d1266b49098b7c802d87611532
+            name: ''
+            object_schema: null
+            required: false
+            type: integer
+            value:
+              content:
+                ref_node_id: 370f48a53be046c38538baf0acda29fd
+                ref_var_name: yitu_count
+              type: ref
+          operator: le
+          right:
+            desc: ''
+            list_schema: null
+            meta:
+              canRemove: true
+              editable: true
+              id: 5bd92c5e3775468bb28423da774d0152
+            name: ''
+            object_schema: null
+            required: false
+            type: integer
+            value:
+              content: 10
+              type: literal
+        logic: and
+      outputs: []
+      settings: {}
+    id: 0b4e5f6834a5413da246ba57f24a9ea3
+    meta:
+      handlers:
+        fail: e374853a679840f099711d194afebf1a
+        input: 04e9e903c80849129b7d474bad991d32
+        pass: 0b892564980d4282b79fe703c6393b36
+    name: "\u5206\u652F\u5668"
+    type: switch
+  - data:
+      inputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: 1a68938142d246d686bcdf40db3ee256
+          isDefaultParam: false
+          ref_param_id: 55f427d1266b49098b7c802d87611532
+        name: yitu
+        object_schema: null
+        required: false
+        type: integer
+        value:
+          content:
+            ref_node_id: 370f48a53be046c38538baf0acda29fd
+            ref_var_name: yitu_count
+          type: ref
+      outputs: []
+      settings:
+        message_template: "{{yitu}}\u6B21????!!! \u592A\u591A\u54AF\uFF0C \u9876\u4E0D\
+          \u4F4F"
+        streaming: false
+        terminate_plan: template
+    id: eee417f844794af08bc87aa81eb363c6
+    meta:
+      handlers:
+        input: 6aa55450525847c2899f00d36c9a51db
+        output: f801483beaf44df0a4382a8606d707c4
+    name: "\u6D88\u606F_3"
+    type: message
+  - accessible: true
+    action: manage
+    data:
+      inputs:
+      - desc: fffff
+        list_schema: null
+        meta:
+          canRemove: true
+          editable: true
+          id: 8ff6e3962dd24e94a4dc0176982fcf6d
+          isDefaultParam: false
+          ref_param_id: 55f427d1266b49098b7c802d87611532
+        name: input
+        object_schema: null
+        required: true
+        type: integer
+        value:
+          content:
+            ref_node_id: 370f48a53be046c38538baf0acda29fd
+            ref_var_name: yitu_count
+          type: ref
+      outputs:
+      - desc: ''
+        list_schema: null
+        meta:
+          id: 28650cbbfe1c4368b22aafcebd5abc74
+          isDefaultParam: false
+          isModelOutputsConfigParam: false
+          isStreamingParam: false
+        name: result
+        object_schema: null
+        required: false
+        type: integer
+        value:
+          content: null
+          type: generated
+      settings:
+        artifact_id: 6e59c3e1-3754-4731-bfdb-830a19a6acec
+        component: a6062bbc-34c2-4542-b1b8-0af24a0c96ba
+        component_meta:
+          author:
+            icon: ''
+            name: xt_luoxw
+          desc: "\u6570\u503C\u9664\u4EE52 \uFF0C\u8FD4\u56DE\u6574\u6570"
+          from_market: false
+          icon: null
+          id: a6062bbc-34c2-4542-b1b8-0af24a0c96ba
+          name: "\u9664\u4EE52"
+          official: false
+          published_at: 1765785408
+          status: published
+          type: workflow
+        rev:
+          current:
+            artifact_id: 6e59c3e1-3754-4731-bfdb-830a19a6acec
+            created_at: 1765785408
+            deleted: false
+            desc: ff
+            version: 1
+          latest:
+            artifact_id: 6e59c3e1-3754-4731-bfdb-830a19a6acec
+            created_at: 1765785408
+            desc: ff
+            version: 1
+    id: e6b0c8c24cbc4513b092bd4f4abc8391
+    meta:
+      desc: "\u6570\u503C\u9664\u4EE52 \uFF0C\u8FD4\u56DE\u6574\u6570"
+      handlers:
+        input: 608acb1ec8f7407ca25e9a2cf03d52e1
+        output: e28c20f535d046c188ebbc5c90653b54
+      icon: ''
+      skip_version_id: ''
+      workflow_meta:
+        desc: "\u6570\u503C\u9664\u4EE52 \uFF0C\u8FD4\u56DE\u6574\u6570"
+        icon: null
+        id: a6062bbc-34c2-4542-b1b8-0af24a0c96ba
+        name: "\u9664\u4EE52"
+        published_at: 1765785408
+        status: published
+    name: "\u9664\u4EE52"
+    type: workflow
+  - data:
+      inputs: []
+      outputs: []
+      settings:
+        auth:
+          type: none
+        content_type: application/json
+        headers: []
+        http_method: GET
+        resp_as_string: false
+        streaming_response: false
+        url: http://25.60.206.31:31001/
+    id: 17a6d0b4817d45eab868b389f48bd2c7
+    meta:
+      apiTestResult:
+        code: 0
+        message: ''
+        result:
+          inner:
+            api_headers:
+              Access-Control-Allow-Origin: '*'
+              Cache-Control: no-cache
+              Content-Length: '567'
+              Content-Security-Policy: script-src 'self' 'unsafe-inline' 'unsafe-eval';
+                worker-src  * blob:, frame-ancestors *
+              Content-Type: text/html
+              Date: Mon, 15 Dec 2025 08:01:16 GMT
+              Etag: W/"682ec612-237"
+              Last-Modified: Thu, 22 May 2025 06:37:06 GMT
+              Server: nginx
+              Vary: Accept-Encoding
+              X-Appbuilder-Request-Id: 6c98e840-45aa-4086-9e1a-654860bfff88
+              X-Content-Type-Options: nosniff
+              X-Frame-Options: sameorigin
+              X-Xss-Protection: 1; mode=block
+            api_json_response:
+              result: <!doctype html><html lang="en"><head><meta charset="utf-8"><meta
+                name="viewport" content="width=device-width,initial-scale=1"><link
+                rel="shortcut icon"><script defer="defer" src="/base/static/js/runtime~main.557ce0b5.js"></script><script
+                defer="defer" src="/base/static/js/tools-3b28af8c.557ce0b5.js"></script><script
+                defer="defer" src="/base/static/js/tools-cdd60c62.557ce0b5.js"></script><script
+                defer="defer" src="/base/static/js/main.557ce0b5.js"></script></head><body><div
+                id="base-root"></div><script src="/base/base-framework/config.js"></script></body></html>
+            api_raw_response: <!doctype html><html lang="en"><head><meta charset="utf-8"><meta
+              name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut
+              icon"><script defer="defer" src="/base/static/js/runtime~main.557ce0b5.js"></script><script
+              defer="defer" src="/base/static/js/tools-3b28af8c.557ce0b5.js"></script><script
+              defer="defer" src="/base/static/js/tools-cdd60c62.557ce0b5.js"></script><script
+              defer="defer" src="/base/static/js/main.557ce0b5.js"></script></head><body><div
+              id="base-root"></div><script src="/base/base-framework/config.js"></script></body></html>
+            api_response:
+              result: <!doctype html><html lang="en"><head><meta charset="utf-8"><meta
+                name="viewport" content="width=device-width,initial-scale=1"><link
+                rel="shortcut icon"><script defer="defer" src="/base/static/js/runtime~main.557ce0b5.js"></script><script
+                defer="defer" src="/base/static/js/tools-3b28af8c.557ce0b5.js"></script><script
+                defer="defer" src="/base/static/js/tools-cdd60c62.557ce0b5.js"></script><script
+                defer="defer" src="/base/static/js/main.557ce0b5.js"></script></head><body><div
+                id="base-root"></div><script src="/base/base-framework/config.js"></script></body></html>
+            api_status_code: 200
+            cfc_log: null
+            code_output: null
+            is_streaming_response: null
+            llm_output: null
+            llm_reasoning: null
+            loop_node_inner: {}
+          inputs: {}
+          message: ''
+          node_execute_cost: 0.014015913009643555
+          node_id: 17a6d0b4817d45eab868b389f48bd2c7
+          node_name: API
+          node_status: success
+          node_template_id: api
+          outputs: {}
+          token_usage:
+            input_token: 0
+            model_name: ''
+            output_token: 0
+            total_token: 0
+      apiTestStatus: success
+      bodyMockValue: {}
+      editSettings:
+        auth:
+          type: none
+        content_type: application/json
+        headers: []
+        http_method: GET
+        resp_as_string: false
+        streaming_response: false
+        url: http://25.60.206.31:31001/
+      formDataMockValue: {}
+      formDataParams:
+      - desc: ''
+        extra:
+          location: body
+        list_schema: null
+        meta:
+          id: ae634968c3a64f9296893576a0743c9e
+        name: ''
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: literal
+      handlers:
+        input: 384aa4d581e24171b92b977fdab67812
+        output: e462aa2f870048bda9c0863977c9c5b8
+      headersMockValue: {}
+      headersParams:
+      - desc: ''
+        extra:
+          location: headers
+        list_schema: null
+        meta:
+          id: 4a34a8c34a5f4edcb60e4da6771a0707
+        name: ''
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: literal
+      lastSuccessNodeScheme:
+        data:
+          inputs: []
+          outputs: []
+          settings:
+            auth:
+              type: none
+            content_type: application/json
+            headers: []
+            http_method: GET
+            resp_as_string: false
+            streaming_response: false
+            url: http://25.60.206.31:31001/
+        id: 17a6d0b4817d45eab868b389f48bd2c7
+        name: API
+        type: api
+      requestParam:
+      - desc: ''
+        extra:
+          location: body
+        list_schema: null
+        meta:
+          id: cd41419a4a7d44479fe0bf07f9b10562
+        name: ''
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: literal
+      responseParam:
+      - desc: ''
+        list_schema: null
+        meta:
+          editable: true
+          id: 94b1a237d419412ca1a819738f7e4a04
+        name: ''
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: generated
+      searchMockValue: {}
+      searchParams:
+      - desc: ''
+        extra:
+          location: query
+        list_schema: null
+        meta:
+          id: ab7cb4b6735d4dcf96eb56d1c266ea34
+        name: ''
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: literal
+      xFormDataMockValue: {}
+      xFormDataParams:
+      - desc: ''
+        extra:
+          location: body
+        list_schema: null
+        meta:
+          id: 369ffe24b31f41268b3eec5ed473aaf7
+        name: ''
+        object_schema: null
+        required: false
+        type: string
+        value:
+          content: null
+          type: literal
+    name: API
+    type: api

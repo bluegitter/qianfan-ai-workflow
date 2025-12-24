@@ -1,0 +1,91 @@
+ab_version: 1.0.0
+action: manage
+app_desc: ''
+app_instance_config:
+  audit_instructions_result: []
+  avatar_id: ''
+  avatar_path: ''
+  desc: ''
+  digitalhuman_config:
+    digitalType: official
+    dimensionType: 3D
+    enable: false
+    enable_avatar: false
+    figureId: ''
+    figure_deleted: false
+    isAutoPlay: true
+    ttsPer: ''
+    ttsPitch: 5
+    ttsSpeed: 5
+    ttsVolume: 5
+    type: digital
+    voiceAutoPlay: true
+    voicePer: '0'
+  history_chat_rounds: 2
+  memory:
+    enable: true
+    variable: {}
+  model_resource_config:
+  - charge_status: FREE
+    has_free_quota: true
+    model_name: xiyansql_qwencoder_32b_2412
+    model_url: http://25.60.206.7:21000/Others/xiyansql-qwencoder/v1/chat/completions?AccessCode=EFEF02FC268A7DFD8FF7A2C02CA8A2D5
+    resource: private
+    type: common
+    usages:
+      app_scenes: []
+      official_components: []
+      workflows:
+      - 意图识别
+      - 大模型
+      - 信息收集
+  - charge_status: FREE
+    has_free_quota: true
+    model_name: eb-speed-appbuilder
+    model_url: http://25.60.206.7:21000/generativeLargeModel/gm?AccessCode=8594E55AF1F21C782ADC551E6BBA29AB
+    resource: private
+    type: common
+    usages:
+      app_scenes:
+      - knowledge_backup_reply
+      - chat_backup_reply
+      official_components: []
+      workflows: []
+  name: 意图识别循环
+  prologue: ''
+  publish_config:
+    show_process: false
+  query_follow_up:
+    query_param:
+      model_name: eb-speed-appbuilder
+    query_type: CLOSED
+  suggest_query: []
+  writing_template: {}
+app_name: 意图识别循环
+app_page_view: 0
+avatar: ''
+created_at: 1765780812
+creator_name: xt_luoxw
+input_length: '20000'
+is_like: false
+is_public: false
+like_count: 0
+model:
+  provider: official
+publish_at: 0
+publish_num: 0
+published_is_latest: 4
+publisher_name: null
+rag_model:
+  provider: official
+released_channel: []
+reminder_type: no_reminder
+suggest_query: []
+template_id: 27702d2a-038e-468d-98f3-b217d4258e31
+template_name: chatflow
+template_values:
+  actions: []
+  inputs: []
+type: chat
+updated_at: 1765785767
+workflow_id: 0a147dd7-3a78-47cc-a06f-290e8c66331a
