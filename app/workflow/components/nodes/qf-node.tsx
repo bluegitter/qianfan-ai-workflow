@@ -3,7 +3,8 @@ import type { QfNodeData } from "../../types";
 import { isNodeType } from "../../utils";
 import { NodeContent } from "./node-content";
 
-export function QfNode({ data, selected }: NodeProps<QfNodeData>) {
+export function QfNode(props: NodeProps<QfNodeData>) {
+  const { data, selected, isConnectable } = props;
   const isStart = isNodeType(data.raw, "start");
   const isApi = isNodeType(data.raw, "service_http", "api");
   const isLlm = isNodeType(data.raw, "llm");
@@ -17,9 +18,8 @@ export function QfNode({ data, selected }: NodeProps<QfNodeData>) {
   const isWorkflow = isNodeType(data.raw, "workflow");
 
   return (
-    <NodeContent 
-      data={data}
-      selected={selected}
+    <NodeContent
+      {...props}
       isStart={isStart}
       isApi={isApi}
       isLlm={isLlm}

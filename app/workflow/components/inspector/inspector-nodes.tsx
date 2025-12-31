@@ -6,7 +6,7 @@ interface InspectorNodeProps {
 }
 
 export function InspectorNode({ node }: InspectorNodeProps) {
-  const raw = node.data.raw ?? {};
+  const raw = node.data.raw ?? {} as any;
   const type = raw?.type;
 
   if (type === "start") {
@@ -42,7 +42,7 @@ export function InspectorNode({ node }: InspectorNodeProps) {
   return <div className="text-xs text-slate-500">暂不支持的节点类型：{type}</div>;
 }
 
-function StartInspector({ raw }: { raw: unknown }) {
+function StartInspector({ raw }: { raw: any }) {
   const systemParams = raw?.data?.inputs?.length > 0
     ? raw.data.inputs.map((item: any) => ({
         name: item?.name ?? "-",
@@ -82,7 +82,7 @@ function StartInspector({ raw }: { raw: unknown }) {
             <span className="text-slate-400">?</span>
           </div>
           <div className="mt-2 space-y-1">
-            {systemParams.map((item) => (
+            {systemParams.map((item: any) => (
               <div
                 key={item.name}
                 className="grid grid-cols-[170px_1fr] items-start gap-3 rounded px-1 py-1 hover:bg-white"
@@ -108,7 +108,7 @@ function StartInspector({ raw }: { raw: unknown }) {
   );
 }
 
-function ApiInspector({ raw }: { raw: unknown }) {
+function ApiInspector({ raw }: { raw: any }) {
   return (
     <div className="space-y-4 text-xs">
       <div className="text-sm font-semibold text-slate-900">API</div>
@@ -148,7 +148,7 @@ function ApiInspector({ raw }: { raw: unknown }) {
   );
 }
 
-function IntentionInspector({ raw }: { raw: unknown }) {
+function IntentionInspector({ raw }: { raw: any }) {
   const intentions = raw?.data?.settings?.intentions ?? [];
   
   return (
@@ -283,7 +283,7 @@ function IntentionInspector({ raw }: { raw: unknown }) {
   );
 }
 
-function ChatInspector({ raw }: { raw: unknown }) {
+function ChatInspector({ raw }: { raw: any }) {
   return (
     <div className="space-y-4 text-xs">
       <div className="text-sm font-semibold text-slate-900">信息收集</div>
@@ -372,7 +372,7 @@ function ChatInspector({ raw }: { raw: unknown }) {
   );
 }
 
-function CodeInspector({ raw }: { raw: unknown }) {
+function CodeInspector({ raw }: { raw: any }) {
   return (
     <div className="space-y-4 text-xs">
       <div className="text-sm font-semibold text-slate-900">代码</div>
@@ -436,7 +436,7 @@ function CodeInspector({ raw }: { raw: unknown }) {
   );
 }
 
-function MessageInspector({ raw }: { raw: unknown }) {
+function MessageInspector({ raw }: { raw: any }) {
   return (
     <div className="space-y-4 text-xs">
       <div className="text-sm font-semibold text-slate-900">消息</div>
@@ -498,7 +498,7 @@ function MessageInspector({ raw }: { raw: unknown }) {
   );
 }
 
-function LoopInspector({ raw }: { raw: unknown }) {
+function LoopInspector({ raw }: { raw: any }) {
   return (
     <div className="space-y-4 text-xs">
       <div className="text-sm font-semibold text-slate-900">循环</div>
@@ -592,7 +592,7 @@ function BranchInspector() {
   );
 }
 
-function LlmInspector({ raw }: { raw: unknown }) {
+function LlmInspector({ raw }: { raw: any }) {
   return (
     <div className="space-y-4 text-xs">
       <div className="text-sm font-semibold text-slate-900">大模型</div>
@@ -639,7 +639,7 @@ function LlmInspector({ raw }: { raw: unknown }) {
   );
 }
 
-function EndInspector({ raw }: { raw: unknown }) {
+function EndInspector({ raw }: { raw: any }) {
   return (
     <div className="space-y-4 text-xs">
       <div className="text-sm font-semibold text-slate-900">结束</div>
@@ -670,7 +670,7 @@ function EndInspector({ raw }: { raw: unknown }) {
   );
 }
 
-function InfoRow({ label, value }: { label: string; value: string }) {
+export function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between text-xs text-slate-700">
       <span className="text-slate-500">{label}</span>
@@ -679,7 +679,7 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+export function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="rounded border border-slate-200 bg-slate-50 p-3">
       <div className="text-xs font-semibold text-slate-700">{title}</div>

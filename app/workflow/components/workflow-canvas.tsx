@@ -17,7 +17,7 @@ import ReactFlow, {
 } from "reactflow";
 import type { Node } from "reactflow";
 import { DEFAULT_WORKFLOW_FILE, LAYOUT_SPACING, NODE_DIMENSIONS, EDGE_MARKER_CONFIG, API_BASE_URL } from "../constants";
-import { loadWorkflowSchema, toReactFlowNodes, toReactFlowEdges } from "../utils";
+import { loadWorkflowSchema, toReactFlowNodes, toReactFlowEdges, saveWorkflowSchema } from "../utils";
 import type { WorkflowNode, SectionState, NodeType } from "../types";
 import { QfNode } from "./nodes";
 import { ArrowBezier, edgeTypes } from "./edges";
@@ -48,6 +48,9 @@ export function WorkflowCanvas() {
   const [workflowTitle, setWorkflowTitle] = useState(initialTitle);
   const [currentWorkflowId, setCurrentWorkflowId] = useState('main'); // 跟踪当前工作流ID
   const [workflowId, setWorkflowId] = useState<string | null>(initialWorkflowId); // MongoDB工作流ID
+  const [saving, setSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState<string | null>(null);
+  const [saveTimeoutId, setSaveTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
   
   const [appSectionOpen, setAppSectionOpen] = useState<SectionState>({
     basic: false,
@@ -189,9 +192,53 @@ export function WorkflowCanvas() {
   }, [loadWorkflow]);
 
   const onNodesChange = useCallback(
-    (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
+    (changes: NodeChange[]) => {
+      setNodes((nds) => applyNodeChanges(changes, nds));
+
+      // 自动保存：清除之前的定时器，设置新的定时器
+      if (saveTimeoutId) {
+        clearTimeout(saveTimeoutId);
+      }
+
+      const newTimeoutId = setTimeout(async () => {
+        await saveWorkflowSchema(currentFile, nodes, edges, workflowId);
+        setLastSaved(new Date().toLocaleTimeString('zh-CN', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        }));
+        console.log(`[工作流保存] 自动保存完成: ${currentFile}`);
+      }, 1000); // 1秒防抖
+
+      setSaveTimeoutId(newTimeoutId);
+    },
+    [currentFile, nodes, edges, workflowId, saveTimeoutId]
   );
+
+  // 手动保存函数
+  const handleManualSave = useCallback(async () => {
+    if (saving) return; // 防止重复保存
+
+    setSaving(true);
+    try {
+      await saveWorkflowSchema(currentFile, nodes, edges, workflowId);
+      const savedTime = new Date().toLocaleTimeString('zh-CN', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      setLastSaved(savedTime);
+      console.log(`[工作流保存] 手动保存完成: ${currentFile}`);
+
+      // 可选：显示保存成功提示
+      // alert('工作流保存成功！');
+    } catch (error) {
+      console.error('[工作流保存] 手动保存失败:', error);
+      alert('保存失败: ' + (error instanceof Error ? error.message : '未知错误'));
+    } finally {
+      setSaving(false);
+    }
+  }, [currentFile, nodes, edges, workflowId, saving]);
 
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)),
@@ -271,7 +318,7 @@ export function WorkflowCanvas() {
     (connection: Connection) => {
       // 检查源节点是否是意图识别节点
       const sourceNode = nodes.find(n => n.id === connection.source) as WorkflowNode | undefined;
-      const isIntentionNode = sourceNode?.data?.raw?.type === "intention";
+      const isIntentionNode = (sourceNode?.data as any)?.raw?.type === "intention";
       
       // 如果是意图节点，确保使用正确的源端口
       let sourceHandle = connection.sourceHandle;
@@ -377,12 +424,15 @@ export function WorkflowCanvas() {
 
   return (
     <div className="min-h-screen bg-slate-100">
-      <Header 
-        onReload={loadWorkflow} 
-        title={workflowTitle} 
-        filePath={currentFile} 
+      <Header
+        onReload={loadWorkflow}
+        title={workflowTitle}
+        filePath={currentFile}
         nodes={nodes}
         onWorkflowChange={handleWorkflowSwitch}
+        saving={saving}
+        lastSaved={lastSaved}
+        onSave={handleManualSave}
       />
 
       <div className="flex min-h-[calc(100vh-56px)]">
@@ -460,18 +510,24 @@ export function WorkflowCanvas() {
   );
 }
 
-function Header({ 
-  onReload, 
-  title, 
+function Header({
+  onReload,
+  title,
   filePath,
   nodes,
-  onWorkflowChange
-}: { 
+  onWorkflowChange,
+  saving,
+  lastSaved,
+  onSave
+}: {
   onReload: () => void;
   title: string;
   filePath: string;
   nodes: WorkflowNode[];
   onWorkflowChange: (workflowId: string, workflowName: string) => void;
+  saving: boolean;
+  lastSaved: string | null;
+  onSave: () => void;
 }) {
   const handleGoBack = () => {
     window.history.back();
@@ -493,7 +549,7 @@ function Header({
   workflowNodes.forEach(node => {
     console.log(`[Header] 节点 ${node.id}:`, {
       title: node.data.title,
-      type: node.data.raw?.type,
+      type: (node.data as any).raw?.type,
       rawData: node.data.raw
     });
   });
@@ -595,8 +651,8 @@ function Header({
                 包含 {workflowNodes.length} 个子工作流
               </div>
             )}
-            <div className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600 leading-tight">
-              自动保存于 08:25:15
+            <div className={`rounded px-2 py-0.5 text-xs leading-tight ${saving ? 'bg-yellow-100 text-yellow-700' : 'bg-slate-100 text-slate-600'}`}>
+              {saving ? '保存中...' : lastSaved ? `自动保存于 ${lastSaved}` : '等待保存...'}
             </div>
           </div>
         </div>
@@ -615,6 +671,17 @@ function Header({
           className="rounded border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100"
         >
           重载
+        </button>
+        <button
+          onClick={onSave}
+          disabled={saving}
+          className={`rounded border px-3 py-2 text-xs font-semibold transition-colors ${
+            saving
+              ? 'border-yellow-300 bg-yellow-50 text-yellow-600 cursor-not-allowed'
+              : 'border-emerald-300 bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
+          }`}
+        >
+          {saving ? '保存中...' : '保存'}
         </button>
         <button className="rounded bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-500">
           更新发布

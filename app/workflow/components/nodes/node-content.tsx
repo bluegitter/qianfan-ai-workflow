@@ -15,7 +15,7 @@ interface IntentionOutputPortsProps {
   isConnectable?: boolean;
 }
 
-function IntentionOutputPorts({ intentions, otherHandleId, isConnectable = true }: IntentionOutputPortsProps) {
+export function IntentionOutputPorts({ intentions, otherHandleId, isConnectable = true }: IntentionOutputPortsProps) {
   const FIRST_OFFSET = 191;
   const GAP = 40;
   const tops = intentions.map((_, idx) => FIRST_OFFSET + idx * GAP);
@@ -55,7 +55,7 @@ function IntentionOutputPorts({ intentions, otherHandleId, isConnectable = true 
   );
 }
 
-interface NodeContentProps extends NodeProps<QfNodeData> {
+export interface NodeContentProps extends NodeProps<QfNodeData> {
   isStart: boolean;
   isApi: boolean;
   isLlm: boolean;
@@ -77,9 +77,9 @@ export function NodeContent({ data, selected, isStart, isApi, isLlm, isEnd, isIn
   const cardRef = useRef<HTMLDivElement>(null);
   const intentionListRef = useRef<HTMLDivElement>(null);
 
-  const startInputs = isStart 
-    ? (data.raw?.data?.inputs?.length 
-        ? data.raw.data.inputs.map((item: NodeInput) => ({
+  const startInputs = isStart
+    ? ((data as any).raw?.data?.inputs?.length
+        ? (data as any).raw.data.inputs.map((item: NodeInput) => ({
             name: item?.name ?? "-",
             type: item?.type ?? "unknown",
           }))
@@ -132,9 +132,9 @@ export function NodeContent({ data, selected, isStart, isApi, isLlm, isEnd, isIn
       
       {/* 为意图识别节点添加多个输出端口 */}
       {isIntention ? (
-        <IntentionOutputPorts 
-          intentions={data.raw?.data?.settings?.intentions ?? []} 
-          otherHandleId={data.raw?.data?.settings?.meta?.unmatedIntention?.id ?? "-1"}
+        <IntentionOutputPorts
+          intentions={(data as any).raw?.data?.settings?.intentions ?? []}
+          otherHandleId={(data as any).raw?.data?.settings?.meta?.unmatedIntention?.id ?? "-1"}
           isConnectable={isConnectable ?? true}
         />
       ) : (
@@ -166,7 +166,7 @@ function NodeHeader({ data, isIntention, isLoop, isBranch, isWorkflow }: NodeHea
     <div className="flex items-center justify-between">
       <div>
         <div className="flex items-center gap-2 text-sm font-semibold text-slate-800">
-          {renderNodeIcon(data.raw?.type)}
+          {renderNodeIcon((data as any).raw?.type)}
           <span>{data.title}</span>
           {isIntention && (
             <span className="rounded bg-orange-100 px-2 py-0.5 text-[10px] font-semibold text-orange-600">
@@ -175,7 +175,7 @@ function NodeHeader({ data, isIntention, isLoop, isBranch, isWorkflow }: NodeHea
           )}
           {isLoop && (
             <span className="rounded bg-orange-100 px-2 py-0.5 text-[10px] font-semibold text-orange-600">
-              {data.raw?.data?.settings?.loop_type === "array" ? "数组循环" : "循环"}
+              {(data as any).raw?.data?.settings?.loop_type === "array" ? "数组循环" : "循环"}
             </span>
           )}
           {isBranch && (
@@ -192,7 +192,7 @@ function NodeHeader({ data, isIntention, isLoop, isBranch, isWorkflow }: NodeHea
         <div className="text-xs text-slate-500">{data.subtitle}</div>
       </div>
       <span className="rounded bg-slate-100 px-2 py-1 text-[10px] uppercase tracking-wide text-slate-600">
-        {data.raw?.type ?? "node"}
+        {(data as any).raw?.type ?? "node"}
       </span>
     </div>
   );
@@ -278,18 +278,18 @@ function ApiNodeContent({ data }: { data: QfNodeData }) {
   return (
     <div className="mt-3 space-y-3">
       <InputOutputSection 
-        inputs={data.raw?.data?.inputs} 
-        outputs={data.raw?.data?.outputs}
+        inputs={(data as any).raw?.data?.inputs} 
+        outputs={(data as any).raw?.data?.outputs}
         showValues 
       />
     </div>
   );
 }
 
-function IntentionNodeContent({ data, intentionListRef }: { data: QfNodeData; intentionListRef?: RefObject<HTMLDivElement> }) {
-  const intentions = data.raw?.data?.settings?.intentions ?? [];
-  const inputs = data.raw?.data?.inputs;
-  const outputs = data.raw?.data?.outputs;
+function IntentionNodeContent({ data, intentionListRef }: { data: QfNodeData; intentionListRef?: RefObject<HTMLDivElement | null> }) {
+  const intentions = (data as any).raw?.data?.settings?.intentions ?? [];
+  const inputs = (data as any).raw?.data?.inputs;
+  const outputs = (data as any).raw?.data?.outputs;
   
   return (
     <div className="mt-3 space-y-3">
@@ -342,7 +342,7 @@ function IntentionNodeContent({ data, intentionListRef }: { data: QfNodeData; in
 }
 
 function ChatNodeContent({ data }: { data: QfNodeData }) {
-  const firstInput = data.raw?.data?.inputs?.[0];
+  const firstInput = (data as any).raw?.data?.inputs?.[0];
   
   return (
     <div className="mt-3 space-y-3">
@@ -363,16 +363,16 @@ function ChatNodeContent({ data }: { data: QfNodeData }) {
       <div className="rounded-md bg-slate-50 p-3">
         <div className="text-xs font-semibold text-slate-600">提问内容</div>
         <div className="mt-2 text-xs text-slate-500">
-          {data.raw?.data?.settings?.question_template || "未填写提问内容"}
+          {(data as any).raw?.data?.settings?.question_template || "未填写提问内容"}
         </div>
       </div>
-      <InputOutputSection outputs={data.raw?.data?.outputs} />
+      <InputOutputSection outputs={(data as any).raw?.data?.outputs} />
     </div>
   );
 }
 
 function MessageNodeContent({ data }: { data: QfNodeData }) {
-  const firstInput = data.raw?.data?.inputs?.[0];
+  const firstInput = (data as any).raw?.data?.inputs?.[0];
   
   return (
     <div className="mt-3 space-y-3">
@@ -393,7 +393,7 @@ function MessageNodeContent({ data }: { data: QfNodeData }) {
       <div className="rounded-md bg-slate-50 p-3">
         <div className="text-xs font-semibold text-slate-600">消息模板</div>
         <div className="mt-2 text-xs text-slate-500">
-          {data.raw?.data?.settings?.message_template || "未填写消息模板"}
+          {(data as any).raw?.data?.settings?.message_template || "未填写消息模板"}
         </div>
       </div>
     </div>
@@ -404,8 +404,8 @@ function CodeNodeContent({ data }: { data: QfNodeData }) {
   return (
     <div className="mt-3 space-y-3">
       <InputOutputSection 
-        inputs={data.raw?.data?.inputs} 
-        outputs={data.raw?.data?.outputs}
+        inputs={(data as any).raw?.data?.inputs} 
+        outputs={(data as any).raw?.data?.outputs}
         showValues 
       />
     </div>
@@ -413,7 +413,7 @@ function CodeNodeContent({ data }: { data: QfNodeData }) {
 }
 
 function LoopNodeContent({ data }: { data: QfNodeData }) {
-  const firstInput = data.raw?.data?.inputs?.[0];
+  const firstInput = (data as any).raw?.data?.inputs?.[0];
   
   return (
     <div className="mt-3 space-y-3">
@@ -466,7 +466,7 @@ function WorkflowNodeContent({ data }: { data: QfNodeData }) {
       <div className="rounded-md bg-slate-50 p-3">
         <div className="text-xs font-semibold text-slate-600">引用子流程</div>
         <div className="mt-2 text-xs text-slate-500">
-          {data.raw?.data?.settings?.component || data.raw?.component || data.raw?.id || "未配置子流程文件"}
+          {(data as any).raw?.data?.settings?.component || (data as any).raw?.component || (data as any).raw?.id || "未配置子流程文件"}
         </div>
       </div>
     </div>
@@ -477,21 +477,21 @@ function LlmNodeContent({ data }: { data: QfNodeData }) {
   return (
     <div className="mt-3 space-y-3">
       <InputOutputSection 
-        inputs={data.raw?.data?.inputs} 
-        outputs={data.raw?.data?.outputs}
+        inputs={(data as any).raw?.data?.inputs} 
+        outputs={(data as any).raw?.data?.outputs}
         showValues 
       />
       <div className="rounded-md bg-slate-50 p-3">
         <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
           <span>提示词</span>
           <span className="rounded bg-indigo-50 px-2 py-0.5 text-[10px] font-semibold text-indigo-700">
-            {data.raw?.data?.settings?.model_name ?? "LLM"}
+            {(data as any).raw?.data?.settings?.model_name ?? "LLM"}
           </span>
         </div>
         <div className="mt-2 rounded bg-white px-3 py-2 text-xs text-slate-700">
           <div className="text-[11px] text-slate-500">用户提示词</div>
           <pre className="mt-1 whitespace-pre-wrap break-words text-[11px]">
-            {data.raw?.data?.settings?.prompt ?? ""}
+            {(data as any).raw?.data?.settings?.prompt ?? ""}
           </pre>
         </div>
       </div>
@@ -505,7 +505,7 @@ function EndNodeContent({ data }: { data: QfNodeData }) {
       <div className="rounded-md bg-slate-50 p-3">
         <div className="text-xs font-semibold text-slate-600">输出</div>
         <div className="mt-2 space-y-1">
-          {(data.raw?.data?.inputs ?? []).map((item: NodeInput, index) => (
+          {((data as any).raw?.data?.inputs ?? []).map((item: NodeInput, index: number) => (
             <div
               key={item?.name ?? index}
               className="grid grid-cols-[1fr_auto] items-center gap-2 text-xs"
@@ -526,7 +526,7 @@ function EndNodeContent({ data }: { data: QfNodeData }) {
       <div className="rounded-md bg-slate-50 p-3">
         <div className="text-xs font-semibold text-slate-600">回复模板</div>
         <div className="mt-2 rounded bg-white px-3 py-2 text-[11px] text-slate-700">
-          {data.raw?.data?.settings?.content ?? ""}
+          {(data as any).raw?.data?.settings?.content ?? ""}
         </div>
       </div>
     </div>

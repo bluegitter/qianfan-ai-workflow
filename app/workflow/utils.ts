@@ -31,8 +31,8 @@ export function formatValue(value: ValueConfig | undefined): string {
   }
   
   if (value.type === "ref") {
-    const refNode = value.content?.ref_node_id ?? "ref";
-    const refVar = value.content?.ref_var_name ?? "";
+    const refNode = (value.content as any)?.ref_node_id ?? "ref";
+    const refVar = (value.content as any)?.ref_var_name ?? "";
     const refName = globalThis.nodeNameMap[refNode] || refNode;
     return `${refName}/${refVar}`;
   }
@@ -259,11 +259,84 @@ export function getStartNodeInputs(raw: unknown): Array<{ name: string; type: st
     : [...START_NODE_DEFAULT_INPUTS];
 }
 
+export async function saveWorkflowSchema(
+  filePath: string,
+  nodes: WorkflowNode[],
+  edges: Edge[],
+  workflowId: string | null
+): Promise<void> {
+  try {
+    // 将ReactFlow节点转换回工作流schema格式
+    const schemaNodes = nodes.map(node => {
+      const rawNode = node.data.raw as any;
+      return {
+        ...rawNode,
+        id: node.id,
+        type: rawNode?.type,
+        name: node.data.title || rawNode?.name,
+        data: rawNode?.data || {},
+        meta: {
+          ...rawNode?.meta,
+          uiState: {
+            ...rawNode?.meta?.uiState,
+            width: node.width,
+            height: node.height,
+            x: node.position.x,
+            y: node.position.y
+          }
+        }
+      };
+    });
+
+    const schemaEdges = edges.map(edge => ({
+      id: edge.id,
+      source_node_id: edge.source,
+      target_node_id: edge.target,
+      source_port_id: edge.sourceHandle || '',
+      target_port_id: edge.targetHandle || '',
+      meta: edge.data || {}
+    }));
+
+    const workflowSchema = {
+      nodes: schemaNodes,
+      edges: schemaEdges
+    };
+
+    console.log(`[工作流保存] 保存工作流schema: ${filePath}`);
+    console.log(`[工作流保存] 节点数量: ${schemaNodes.length}, 边数量: ${schemaEdges.length}`);
+
+    // 调用保存API
+    const response = await fetch('/api/workflow-save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        file: filePath,
+        nodes: schemaNodes,
+        edges: schemaEdges,
+        workflowId: workflowId
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || '保存失败');
+    }
+
+    console.log(`[工作流保存] 保存成功`);
+
+  } catch (error) {
+    console.error('[工作流保存] 保存失败:', error);
+    throw error;
+  }
+}
+
 export function getStartNodeSystemParams(raw: unknown): Array<{ name: string; type: string; desc: string }> {
   const rawData = raw as RawNodeData;
   const inputs = rawData?.data?.inputs;
   
-  return inputs?.length > 0
+  return (inputs && inputs.length > 0)
     ? inputs.map((item) => ({
         name: item?.name ?? "-",
         type: item?.type ?? "",
