@@ -120,12 +120,30 @@ export function toReactFlowEdges(edges: unknown[] = []): WorkflowEdge[] {
   });
 }
 
+type LoadOptions =
+  | string
+  | {
+      apiUrl?: string;
+      workflowId?: string | null;
+    };
+
 export async function loadWorkflowSchema(
-  filePath: string, 
-  apiUrl: string = "/api/workflow-example"
+  filePath: string,
+  options: LoadOptions = "/api/workflow-example",
 ): Promise<{ schema: WorkflowSchema; nodeNameMap: Record<string, string> }> {
-  const fileParam = encodeURIComponent(filePath);
-  const response = await fetch(`${apiUrl}?file=${fileParam}`);
+  const { apiUrl, workflowId } =
+    typeof options === "string"
+      ? { apiUrl: options, workflowId: undefined }
+      : options || {};
+
+  const search = new URLSearchParams({ file: filePath });
+  if (workflowId) {
+    search.set("workflowId", workflowId);
+  }
+
+  const response = await fetch(
+    `${apiUrl ?? "/api/workflow-example"}?${search.toString()}`,
+  );
   
   if (!response.ok) {
     throw new Error(`请求失败：${response.statusText}`);
@@ -139,26 +157,82 @@ export async function loadWorkflowSchema(
   }
   
   const parsed = YAML.load(content) as any;
-  let schema: WorkflowSchema | undefined =
-    parsed?.workflow_detail?.workflow_schema || parsed?.workflow_schema;
+  const extractSchema = (doc: any) =>
+    doc?.workflow_detail?.workflow_schema || doc?.workflow_schema;
+  let schema: WorkflowSchema | undefined = extractSchema(parsed);
 
   if (!schema && parsed?.workflow_id) {
-    const baseDir = filePath.split("/").slice(0, -1).join("/");
-    const componentPath = `${baseDir}/component/${parsed.workflow_id}.yaml`;
-    const compResponse = await fetch(
-      `${apiUrl}?file=${encodeURIComponent(componentPath)}`
-    );
-    
-    if (!compResponse.ok) {
-      throw new Error(`组件文件加载失败：${componentPath}`);
+    // 检查是否已经是在加载组件文件，避免递归
+    if (filePath.includes("/component/")) {
+      console.log(`[工作流加载] 检测到组件文件，跳过递归加载: ${filePath}`);
+      // 对于组件文件，我们不应该尝试加载子组件
+    } else {
+      const pathParts = filePath.split("/");
+      let baseDir = pathParts.slice(0, -1).join("/");
+      
+      if (!baseDir || baseDir === "") {
+        baseDir = ".";
+      }
+      
+      const parsedWorkflowId = parsed.workflow_id;
+      const artifactId =
+        parsed?.artifact_id ||
+        parsed?.rev?.latest?.artifact_id ||
+        parsed?.rev?.current?.artifact_id;
+
+      console.log(`[工作流加载] 原始文件路径: ${filePath}`);
+      console.log(`[工作流加载] 路径分割: ${JSON.stringify(pathParts)}`);
+      console.log(`[工作流加载] 计算的基础目录: "${baseDir}"`);
+      console.log(`[工作流加载] 工作流ID: ${parsedWorkflowId}`);
+      console.log(`[工作流加载] 制品ID: ${artifactId}`);
+      console.log(`[工作流加载] 当前workflowId参数: ${workflowId || '无'}`);
+
+      const candidateFiles = [
+        artifactId ? `${parsedWorkflowId}--${artifactId}.yaml` : null,
+        `${parsedWorkflowId}.yaml`,
+      ].filter(Boolean) as string[];
+
+      for (const fileName of candidateFiles) {
+        const componentPath = baseDir === "." 
+          ? `component/${fileName}`
+          : `${baseDir}/component/${fileName}`;
+        
+        // 如果当前有workflowId参数，说明是从MongoDB加载，需要继续使用workflowId
+        // 否则使用文件系统路径
+        const compSearch = new URLSearchParams({ file: componentPath });
+        if (workflowId) {
+          compSearch.set("workflowId", workflowId);
+        }
+        
+        console.log(`[工作流加载] 尝试加载组件文件: ${componentPath}`);
+        console.log(`[工作流加载] baseDir值: "${baseDir}", 是否为当前目录: ${baseDir === "."}`);
+        console.log(`[工作流加载] 是否使用MongoDB: ${!!workflowId}`);
+        
+        const compResponse = await fetch(
+          `${apiUrl ?? "/api/workflow-example"}?${compSearch.toString()}`,
+        );
+
+        if (!compResponse.ok) {
+          console.warn(`组件文件加载失败: ${componentPath}, 状态: ${compResponse.status}`);
+          continue;
+        }
+
+        const compPayload = await compResponse.json();
+        const compContent = compPayload?.content;
+        console.log(`[工作流加载] 组件文件内容长度: ${compContent?.length || 0}`);
+        
+        const compParsed = compContent ? (YAML.load(compContent) as any) : null;
+        schema = compParsed ? extractSchema(compParsed) : undefined;
+        console.log(`[工作流加载] 提取的schema: ${schema ? '成功' : '失败'}`);
+        
+        if (schema) break;
+      }
+
+      if (!schema) {
+        const tried = candidateFiles.map(f => `${baseDir}/component/${f}`).join("，");
+        throw new Error(`组件文件加载失败，尝试路径：${tried}`);
+      }
     }
-    
-    const compPayload = await compResponse.json();
-    const compContent = compPayload?.content;
-    const compParsed = compContent ? (YAML.load(compContent) as any) : null;
-    schema =
-      compParsed?.workflow_schema ||
-      compParsed?.workflow_detail?.workflow_schema;
   }
 
   if (!schema) {

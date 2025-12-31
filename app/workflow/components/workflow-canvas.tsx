@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import ReactFlow, {
   Background,
   Controls,
@@ -15,7 +16,7 @@ import ReactFlow, {
   MarkerType,
 } from "reactflow";
 import type { Node } from "reactflow";
-import { DEFAULT_WORKFLOW_FILE, LAYOUT_SPACING, NODE_DIMENSIONS, EDGE_MARKER_CONFIG } from "../constants";
+import { DEFAULT_WORKFLOW_FILE, LAYOUT_SPACING, NODE_DIMENSIONS, EDGE_MARKER_CONFIG, API_BASE_URL } from "../constants";
 import { loadWorkflowSchema, toReactFlowNodes, toReactFlowEdges } from "../utils";
 import type { WorkflowNode, SectionState, NodeType } from "../types";
 import { QfNode } from "./nodes";
@@ -27,6 +28,13 @@ import { renderNodeIcon } from "./node-icons";
 const nodeTypes = { qfNode: QfNode };
 
 export function WorkflowCanvas() {
+  const searchParams = useSearchParams();
+  const workflowId = searchParams.get("workflowId") ?? searchParams.get("id");
+  const initialFile =
+    searchParams.get("file") ?? DEFAULT_WORKFLOW_FILE;
+  const initialTitle =
+    searchParams.get("name") ?? "AI 工作流";
+
   const [nodes, setNodes] = useState<WorkflowNode[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [loading, setLoading] = useState(false);
@@ -36,6 +44,8 @@ export function WorkflowCanvas() {
   const [showInspector, setShowInspector] = useState(true);
   const [showNodePalette, setShowNodePalette] = useState(false);
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
+  const [currentFile, setCurrentFile] = useState(initialFile);
+  const [workflowTitle, setWorkflowTitle] = useState(initialTitle);
   
   const [appSectionOpen, setAppSectionOpen] = useState<SectionState>({
     basic: false,
@@ -51,7 +61,10 @@ export function WorkflowCanvas() {
     setLoading(true);
     setError(null);
     try {
-      const { schema, nodeNameMap } = await loadWorkflowSchema(DEFAULT_WORKFLOW_FILE);
+      const { schema, nodeNameMap } = await loadWorkflowSchema(
+        currentFile,
+        { apiUrl: API_BASE_URL, workflowId }
+      );
       globalThis.nodeNameMap = nodeNameMap;
       setNodes(toReactFlowNodes(schema.nodes));
       setEdges(toReactFlowEdges(schema.edges));
@@ -62,7 +75,14 @@ export function WorkflowCanvas() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentFile, workflowId]);
+
+  useEffect(() => {
+    const nextFile = searchParams.get("file") ?? DEFAULT_WORKFLOW_FILE;
+    const nextTitle = searchParams.get("name") ?? "AI 工作流";
+    setCurrentFile(nextFile);
+    setWorkflowTitle(nextTitle);
+  }, [searchParams]);
 
   useEffect(() => {
     loadWorkflow();
@@ -257,7 +277,7 @@ export function WorkflowCanvas() {
 
   return (
     <div className="min-h-screen bg-slate-100">
-      <Header onReload={loadWorkflow} />
+      <Header onReload={loadWorkflow} title={workflowTitle} filePath={currentFile} />
 
       <div className="flex min-h-[calc(100vh-56px)]">
         {showAppConfig && (
@@ -334,7 +354,15 @@ export function WorkflowCanvas() {
   );
 }
 
-function Header({ onReload }: { onReload: () => void }) {
+function Header({ 
+  onReload, 
+  title, 
+  filePath 
+}: { 
+  onReload: () => void;
+  title: string;
+  filePath: string;
+}) {
   const handleGoBack = () => {
     window.history.back();
   };
@@ -352,9 +380,11 @@ function Header({ onReload }: { onReload: () => void }) {
           </svg>
         </button>
         <div className="flex flex-col gap-0.5">
-          <div className="text-base font-semibold text-slate-900 leading-tight">知识库问答工作流</div>
+          <div className="text-base font-semibold text-slate-900 leading-tight">{title}</div>
           <div className="flex items-center gap-2">
-            <div className="text-xs text-slate-500 leading-tight">暂无短信推送 · 工作流Agent</div>
+            <div className="text-xs text-slate-500 leading-tight">
+              加载文件：{filePath || "未指定"}
+            </div>
             <div className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600 leading-tight">
               自动保存于 08:25:15
             </div>
