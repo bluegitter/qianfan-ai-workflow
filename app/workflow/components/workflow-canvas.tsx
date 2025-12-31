@@ -29,7 +29,7 @@ const nodeTypes = { qfNode: QfNode };
 
 export function WorkflowCanvas() {
   const searchParams = useSearchParams();
-  const workflowId = searchParams.get("workflowId") ?? searchParams.get("id");
+  const initialWorkflowId = searchParams.get("workflowId") ?? searchParams.get("id");
   const initialFile =
     searchParams.get("file") ?? DEFAULT_WORKFLOW_FILE;
   const initialTitle =
@@ -46,6 +46,8 @@ export function WorkflowCanvas() {
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
   const [currentFile, setCurrentFile] = useState(initialFile);
   const [workflowTitle, setWorkflowTitle] = useState(initialTitle);
+  const [currentWorkflowId, setCurrentWorkflowId] = useState('main'); // 跟踪当前工作流ID
+  const [workflowId, setWorkflowId] = useState<string | null>(initialWorkflowId); // MongoDB工作流ID
   
   const [appSectionOpen, setAppSectionOpen] = useState<SectionState>({
     basic: false,
@@ -77,11 +79,109 @@ export function WorkflowCanvas() {
     }
   }, [currentFile, workflowId]);
 
+  const handleWorkflowSwitch = useCallback(async (workflowId: string, workflowName: string) => {
+    console.log(`[工作流切换] 切换到工作流: ${workflowName} (${workflowId})`);
+    console.log(`[工作流切换] 当前节点数据:`, nodes.find(n => n.id === workflowId)?.data);
+    
+    if (workflowId === 'main') {
+      // 切换回主工作流
+      setCurrentFile(initialFile);
+      setWorkflowTitle(initialTitle);
+      setCurrentWorkflowId('main');
+      // 重新加载主工作流
+      window.location.href = `/workflow?file=${encodeURIComponent(initialFile)}&name=${encodeURIComponent(initialTitle)}${workflowId ? `&workflowId=${workflowId}` : ''}`;
+    } else {
+      // 切换到子工作流
+      const targetNode = nodes.find(node => node.id === workflowId);
+      if (targetNode) {
+        console.log(`[工作流切换] 找到目标节点:`, targetNode.data);
+        console.log(`[工作流切换] 完整的raw数据:`, JSON.stringify(targetNode.data.raw, null, 2));
+        
+        // 尝试多种路径解析方式
+        const rawNode = targetNode.data.raw as any;
+        let componentPath = '';
+        
+        console.log(`[工作流切换] 开始路径解析，检查字段:`, {
+          'rawNode?.data?.settings?.component': rawNode?.data?.settings?.component,
+          'rawNode?.component': rawNode?.component,
+          'rawNode?.workflow_id': rawNode?.workflow_id,
+          'rawNode?.artifact_id': rawNode?.artifact_id,
+          'rawNode?.rev?.current?.artifact_id': rawNode?.rev?.current?.artifact_id,
+          'rawNode?.rev?.latest?.artifact_id': rawNode?.rev?.latest?.artifact_id
+        });
+        
+        // 方法1: 从 settings.component 获取
+        if (rawNode?.data?.settings?.component) {
+          componentPath = rawNode.data.settings.component;
+          console.log(`[工作流切换] 方法1成功 (settings.component): ${componentPath}`);
+        }
+        // 方法2: 从 component 字段直接获取
+        else if (rawNode?.component) {
+          componentPath = rawNode.component;
+          console.log(`[工作流切换] 方法2成功 (component): ${componentPath}`);
+        }
+        // 方法3: 基于 workflow_id 和 artifact_id 构建路径
+        else if (rawNode?.workflow_id) {
+          const workflowId_str = rawNode.workflow_id;
+          // 尝试从更多可能的字段获取artifact_id
+          const artifactId = rawNode?.artifact_id || 
+                           rawNode?.rev?.current?.artifact_id || 
+                           rawNode?.rev?.latest?.artifact_id ||
+                           rawNode?.data?.artifact_id ||
+                           rawNode?.data?.settings?.artifact_id;
+                           
+          console.log(`[工作流切换] 方法3: workflow_id=${workflowId_str}, artifact_id=${artifactId}`);
+          if (artifactId) {
+            componentPath = `component/${workflowId_str}--${artifactId}.yaml`;
+            console.log(`[工作流切换] 方法3a成功 (构建完整路径): ${componentPath}`);
+          } else {
+            componentPath = `component/${workflowId_str}.yaml`;
+            console.log(`[工作流切换] 方法3b成功 (仅workflow_id): ${componentPath}`);
+          }
+        } else {
+          // 最后的备用方案：直接使用节点ID作为文件名
+          componentPath = `component/${workflowId}.yaml`;
+          console.warn(`[工作流切换] 使用备用方案 (节点ID): ${componentPath}`);
+        }
+        
+        console.log(`[工作流切换] 最终解析的组件路径: "${componentPath}"`);
+        
+        if (componentPath) {
+          setCurrentFile(componentPath);
+          setWorkflowTitle(workflowName);
+          setCurrentWorkflowId(workflowId);
+          // 构建新的URL来加载子工作流，保持原有的workflowId参数
+          const currentUrlParams = new URLSearchParams(window.location.search);
+          const mongoWorkflowId = currentUrlParams.get('workflowId');
+          const newUrl = `/workflow?file=${encodeURIComponent(componentPath)}&name=${encodeURIComponent(workflowName)}${mongoWorkflowId ? `&workflowId=${mongoWorkflowId}` : ''}`;
+          console.log(`[工作流切换] 导航到: ${newUrl}`);
+          window.location.href = newUrl;
+        } else {
+          console.warn(`[工作流切换] 找不到组件路径，完整节点数据:`, JSON.stringify(rawNode, null, 2));
+        }
+      } else {
+        console.warn(`[工作流切换] 找不到目标节点: ${workflowId}`);
+      }
+    }
+  }, [nodes, initialFile, initialTitle]);
+
   useEffect(() => {
     const nextFile = searchParams.get("file") ?? DEFAULT_WORKFLOW_FILE;
     const nextTitle = searchParams.get("name") ?? "AI 工作流";
+    const nextWorkflowId = searchParams.get("workflowId") ?? searchParams.get("id");
+    
+    // 检查文件路径是否不完整（只有工作流ID而没有完整路径）
+    if (nextFile && !nextFile.includes('/') && !nextFile.endsWith('.yaml')) {
+      // 这可能是一个不完整的工作流ID，尝试从URL参数中获取完整信息
+      console.warn(`[工作流页面] 检测到不完整的文件路径: ${nextFile}`);
+      console.warn(`[工作流页面] 当前URL参数:`, Object.fromEntries(searchParams.entries()));
+    }
+    
+    console.log(`[工作流页面] 初始化: file=${nextFile}, title=${nextTitle}, workflowId=${nextWorkflowId}`);
+    
     setCurrentFile(nextFile);
     setWorkflowTitle(nextTitle);
+    setWorkflowId(nextWorkflowId); // 设置MongoDB工作流ID
   }, [searchParams]);
 
   useEffect(() => {
@@ -277,7 +377,13 @@ export function WorkflowCanvas() {
 
   return (
     <div className="min-h-screen bg-slate-100">
-      <Header onReload={loadWorkflow} title={workflowTitle} filePath={currentFile} />
+      <Header 
+        onReload={loadWorkflow} 
+        title={workflowTitle} 
+        filePath={currentFile} 
+        nodes={nodes}
+        onWorkflowChange={handleWorkflowSwitch}
+      />
 
       <div className="flex min-h-[calc(100vh-56px)]">
         {showAppConfig && (
@@ -357,15 +463,93 @@ export function WorkflowCanvas() {
 function Header({ 
   onReload, 
   title, 
-  filePath 
+  filePath,
+  nodes,
+  onWorkflowChange
 }: { 
   onReload: () => void;
   title: string;
   filePath: string;
+  nodes: WorkflowNode[];
+  onWorkflowChange: (workflowId: string, workflowName: string) => void;
 }) {
   const handleGoBack = () => {
     window.history.back();
   };
+
+  // 收集所有工作流类型的节点
+  const workflowNodes = nodes.filter(node => {
+    const rawNode = node.data.raw as any;
+    const nodeType = rawNode?.type;
+    // 检查多种可能的子工作流标识
+    const hasWorkflowId = !!rawNode?.workflow_id;
+    const hasComponentPath = !!(rawNode?.data?.settings?.component || rawNode?.component);
+    const isWorkflowType = nodeType === 'workflow' || nodeType === 'component';
+    
+    return isWorkflowType || hasWorkflowId || hasComponentPath;
+  });
+
+  console.log(`[Header] 找到 ${workflowNodes.length} 个工作流节点`);
+  workflowNodes.forEach(node => {
+    console.log(`[Header] 节点 ${node.id}:`, {
+      title: node.data.title,
+      type: node.data.raw?.type,
+      rawData: node.data.raw
+    });
+  });
+
+  // 创建工作流选项列表
+  const workflowOptions = [
+    { id: 'main', name: '主工作流', filePath: filePath },
+    ...workflowNodes.map(node => {
+      const rawNode = node.data.raw as any;
+      let componentPath = '';
+      
+      console.log(`[Header] 解析节点 ${node.id} 的组件路径:`, {
+        'settings.component': rawNode?.data?.settings?.component,
+        'component': rawNode?.component,
+        'workflow_id': rawNode?.workflow_id,
+        'artifact_id': rawNode?.artifact_id,
+        'rev.current.artifact_id': rawNode?.rev?.current?.artifact_id,
+        'rev.latest.artifact_id': rawNode?.rev?.latest?.artifact_id
+      });
+      
+      // 使用与 handleWorkflowSwitch 相同的路径解析逻辑
+      if (rawNode?.data?.settings?.component) {
+        componentPath = rawNode.data.settings.component;
+        console.log(`[Header] 使用方法1 (settings.component): ${componentPath}`);
+      } else if (rawNode?.component) {
+        componentPath = rawNode.component;
+        console.log(`[Header] 使用方法2 (component): ${componentPath}`);
+      } else if (rawNode?.workflow_id) {
+        const workflowId_str = rawNode.workflow_id;
+        // 尝试从更多可能的字段获取artifact_id
+        const artifactId = rawNode?.artifact_id || 
+                         rawNode?.rev?.current?.artifact_id || 
+                         rawNode?.rev?.latest?.artifact_id ||
+                         rawNode?.data?.artifact_id ||
+                         rawNode?.data?.settings?.artifact_id;
+                         
+        if (artifactId) {
+          componentPath = `component/${workflowId_str}--${artifactId}.yaml`;
+          console.log(`[Header] 使用方法3a (workflow_id + artifact_id): ${componentPath}`);
+        } else {
+          componentPath = `component/${workflowId_str}.yaml`;
+          console.log(`[Header] 使用方法3b (仅workflow_id): ${componentPath}`);
+        }
+      } else {
+        // 最后的备用方案：直接使用节点ID作为文件名
+        componentPath = `component/${node.id}.yaml`;
+        console.warn(`[Header] 使用备用方案 (节点ID): ${componentPath}`);
+      }
+      
+      return {
+        id: node.id,
+        name: node.data.title || rawNode?.name || `子工作流: ${node.id.slice(0, 8)}`,
+        filePath: componentPath
+      };
+    })
+  ];
 
   return (
     <header className="relative flex items-center justify-between border-b border-slate-200 bg-white px-6 h-14">
@@ -380,11 +564,37 @@ function Header({
           </svg>
         </button>
         <div className="flex flex-col gap-0.5">
-          <div className="text-base font-semibold text-slate-900 leading-tight">{title}</div>
+          <div className="flex items-center gap-2">
+            <div className="text-base font-semibold text-slate-900 leading-tight">{title}</div>
+            {workflowOptions.length > 1 && (
+              <select 
+                value={filePath} // 当前文件的路径
+                onChange={(e) => {
+                  const selectedWorkflow = workflowOptions.find(w => w.filePath === e.target.value);
+                  if (selectedWorkflow) {
+                    console.log(`[Header] 选择工作流: ${selectedWorkflow.name}, 路径: ${selectedWorkflow.filePath}`);
+                    onWorkflowChange(selectedWorkflow.id, selectedWorkflow.name);
+                  }
+                }}
+                className="text-xs font-medium text-indigo-600 border border-indigo-200 rounded px-2 py-1 bg-indigo-50 hover:bg-indigo-100 transition-colors cursor-pointer max-w-[200px]"
+              >
+                {workflowOptions.map(option => (
+                  <option key={option.id} value={option.filePath}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
           <div className="flex items-center gap-2">
             <div className="text-xs text-slate-500 leading-tight">
               加载文件：{filePath || "未指定"}
             </div>
+            {workflowNodes.length > 0 && (
+              <div className="rounded bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700 leading-tight">
+                包含 {workflowNodes.length} 个子工作流
+              </div>
+            )}
             <div className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600 leading-tight">
               自动保存于 08:25:15
             </div>

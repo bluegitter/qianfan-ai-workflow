@@ -30,16 +30,29 @@ async function readFromDatabase(workflowId: string, file: string) {
 
   console.log(`[MongoDB] 查找文件: ${file}`);
   console.log(`[MongoDB] 数据库中的文件数量: ${doc.files.length}`);
-  console.log(`[MongoDB] 数据库中的文件路径:`, doc.files.map(f => f.path));
+  console.log(`[MongoDB] 数据库中的文件路径:`, doc.files.map((f: any) => ({ path: f.path, id: f.id, artifact_id: f.artifact_id, name: f.name })));
 
   const normalized = normalizePath(file);
+  
+  // 首先尝试通过ID直接查找（这是新的查找方式）
+  const matchedById = doc.files.find((item: any) => item.id === normalized || item.artifact_id === normalized);
+  if (matchedById) {
+    console.log(`[MongoDB] 通过ID找到匹配文件: ${matchedById.path}`);
+    return NextResponse.json({
+      content: matchedById.content,
+      file: matchedById.path,
+      workflowId,
+    });
+  }
+  
+  // 然后尝试传统的路径匹配方式
   const matched =
-    doc.files.find((item) => normalizePath(item.path) === normalized) ||
-    doc.files.find((item) => normalizePath(item.path).endsWith(`/${normalized}`)) ||
+    doc.files.find((item: any) => normalizePath(item.path) === normalized) ||
+    doc.files.find((item: any) => normalizePath(item.path).endsWith(`/${normalized}`)) ||
     (() => {
       const basename = normalized.split("/").pop();
       if (!basename) return undefined;
-      return doc.files.find((item) =>
+      return doc.files.find((item: any) =>
         normalizePath(item.path).split("/").pop() === basename,
       );
     })();

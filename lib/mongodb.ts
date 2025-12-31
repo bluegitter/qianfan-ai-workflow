@@ -8,6 +8,10 @@ const DEFAULT_COLLECTION = "workflows";
 type WorkflowFileEntry = {
   path: string;
   content: string;
+  id?: string;           // 工作流ID
+  artifact_id?: string;  // 制品ID
+  name?: string;         // 工作流名称
+  desc?: string;         // 工作流描述
 };
 
 export type WorkflowDocument = {
